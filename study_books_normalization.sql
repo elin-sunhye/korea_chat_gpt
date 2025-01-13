@@ -113,13 +113,3 @@ order by
 limit 1, 10
 	
 ## from -> where -> group by -> having -> select -> order by -> limit
-
-
-
-
-
-
-
-
-
-
