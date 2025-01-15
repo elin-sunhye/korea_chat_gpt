@@ -1,9 +1,8 @@
 import ReactDOM from 'react-dom/client';
-import App from './study/App';
-import App2 from './study/App2';
+import App5 from './study/App5';
 // import App from './App';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 
 // root.render(<App />);
-root.render(<App2 />);
+root.render(<App5 />);

@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 
 /**
  * useState 상태관리
@@ -8,17 +8,21 @@ export default function App2() {
 
   let number = 0;
 
-  console.log('num', num);
-  console.log('number', number);
+  // console.log('num', num);
+  // console.log('number', number);
 
   const handleIncreaseOnClick = () => {
-    number += 1;
-    setNum(num + 1);
+    if (num < 9) {
+      number += 1;
+      setNum(num + 1);
+    }
   };
 
   const handleDecreaseOnClick = () => {
-    number -= 1;
-    setNum(num - 1);
+    if (num > 0) {
+      number -= 1;
+      setNum(num - 1);
+    }
   };
 
   return (
