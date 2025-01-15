@@ -30,7 +30,7 @@ export default function App5() {
 
   // handle ----------
   // sign_up
-  const handleSignUpInputOnCHange = (e) => {
+  const handleSignUpInputOnChange = (e) => {
     const { name, value } = e.target;
     setSignUpValue({
       ...signUpValue,
@@ -45,6 +45,7 @@ export default function App5() {
       alert('중복된 아이디가 있습니다.');
     } else {
       setUserList([...userList, signUpValue]);
+      alert('회원가입 완료');
       setSignUpValue({
         username: '',
         password: '',
@@ -55,7 +56,7 @@ export default function App5() {
   };
 
   // log_in
-  const handleLogInInputOnCHange = (e) => {
+  const handleLogInInputOnChange = (e) => {
     const { name, value } = e.target;
     setLogInValue({
       ...logInValue,
@@ -64,28 +65,14 @@ export default function App5() {
   };
   const handleLogInBtnOnClick = () => {
     // 유효성 검사
-    if (
-      userList.find(
-        (user) =>
-          user.username === logInValue.username &&
-          user.password === logInValue.password
-      )
-    ) {
-      alert(
-        `${
-          userList.find(
-            (user) =>
-              user.username === logInValue.username &&
-              user.password === logInValue.password
-          ).name
-        } (${
-          userList.find(
-            (user) =>
-              user.username === logInValue.username &&
-              user.password === logInValue.password
-          ).email
-        })님 환영합니다.`
-      );
+    const findName = userList.find(
+      (user) =>
+        user.username === logInValue.username &&
+        user.password === logInValue.password
+    );
+
+    if (findName) {
+      alert(`${findName.name} (${findName.email})님 환영합니다.`);
 
       setLogInValue({
         username: '',
@@ -110,28 +97,28 @@ export default function App5() {
         name="username"
         placeholder="username"
         value={signUpValue.username}
-        onChange={handleSignUpInputOnCHange}
+        onChange={handleSignUpInputOnChange}
       />
       <input
         type="password"
         name="password"
         placeholder="password"
         value={signUpValue.password}
-        onChange={handleSignUpInputOnCHange}
+        onChange={handleSignUpInputOnChange}
       />
       <input
         type="text"
         name="name"
         placeholder="name"
         value={signUpValue.name}
-        onChange={handleSignUpInputOnCHange}
+        onChange={handleSignUpInputOnChange}
       />
       <input
         type="text"
         name="email"
         placeholder="email"
         value={signUpValue.email}
-        onChange={handleSignUpInputOnCHange}
+        onChange={handleSignUpInputOnChange}
       />
 
       <div>
@@ -147,14 +134,14 @@ export default function App5() {
         name="username"
         placeholder="username"
         value={logInValue.username}
-        onChange={handleLogInInputOnCHange}
+        onChange={handleLogInInputOnChange}
       />
       <input
         type="password"
         name="password"
         placeholder="password"
         value={logInValue.password}
-        onChange={handleLogInInputOnCHange}
+        onChange={handleLogInInputOnChange}
       />
 
       <div>
