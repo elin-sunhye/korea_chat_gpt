@@ -25,6 +25,8 @@ export default function App9() {
 
   useEffect(mount);
 
+  console.log('?????');
+
   return (
     <>
       <h1>Num1 : {num1}</h1>
