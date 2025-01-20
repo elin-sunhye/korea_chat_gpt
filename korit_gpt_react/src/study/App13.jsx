@@ -30,7 +30,7 @@ export default function App13() {
 
       console.log('resp', resp);
     } catch (e) {
-      console.error(e);
+      console.error(e); 
     }
   };
   return (
