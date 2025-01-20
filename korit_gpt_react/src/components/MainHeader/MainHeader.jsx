@@ -17,34 +17,34 @@ export default function MainHeader() {
           <h1>미니 게시판 프로젝트</h1>
         </Link>
         <ul>
-          <Link to={'/list'}>
-            <li>
+          <li>
+            <Link to={'/list'}>
               <LuLayoutList />
               게시글 목록
-            </li>
-          </Link>
-          <Link to={'/write'}>
-            <li>
+            </Link>
+          </li>
+          <li>
+            <Link to={'/write'}>
               <LuNotebookPen />
               게시글 작성
-            </li>
-          </Link>
+            </Link>
+          </li>
         </ul>
       </div>
       <div css={s.rightContainer}>
         <ul>
-          <Link to={'/signin'}>
-            <li>
+          <li>
+            <Link to={'/signin'}>
               <LuLogIn />
               로그인
-            </li>
-          </Link>
-          <Link to={'/signup'}>
-            <li>
+            </Link>
+          </li>
+          <li>
+            <Link to={'/signup'}>
               <LuUserRoundPlus />
               회원가입
-            </li>
-          </Link>
+            </Link>
+          </li>
         </ul>
       </div>
     </div>
