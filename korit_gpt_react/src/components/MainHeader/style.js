@@ -35,7 +35,7 @@ export const leftContainer = css`
   ul {
     display: flex;
 
-    li {
+    a {
       box-sizing: border-box;
       display: flex;
       align-items: center;
@@ -64,7 +64,7 @@ export const rightContainer = css`
   ul {
     display: flex;
 
-    li {
+    a {
       position: relative;
       display: flex;
       justify-content: center;
