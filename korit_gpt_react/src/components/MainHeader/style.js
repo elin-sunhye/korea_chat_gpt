@@ -35,23 +35,26 @@ export const leftContainer = css`
   ul {
     display: flex;
 
-    a {
-      box-sizing: border-box;
-      display: flex;
-      align-items: center;
+    li {
       margin-left: 30px;
-      padding: 5px 10px;
-      font-weight: 600;
-      transition: all 0.1s ease-in-out;
-      color: #666;
 
-      &:hover {
-        transform: scale(1.1);
-        color: #222;
-      }
+      a {
+        box-sizing: border-box;
+        display: flex;
+        align-items: center;
+        padding: 5px 10px;
+        font-weight: 600;
+        transition: all 0.1s ease-in-out;
+        color: #666;
 
-      svg {
-        margin-right: 5px;
+        &:hover {
+          transform: scale(1.1);
+          color: #222;
+        }
+
+        svg {
+          margin-right: 5px;
+        }
       }
     }
   }
@@ -64,31 +67,35 @@ export const rightContainer = css`
   ul {
     display: flex;
 
-    a {
-      position: relative;
-      display: flex;
-      justify-content: center;
-      align-items: center;
+    li {
       margin-left: 10px;
-      padding: 5px 3px 3px;
-      font-size: 14px;
-      font-weight: 600;
 
-      &::after {
-        content: '';
-        position: absolute;
-        bottom: 0;
-        width: 0;
-        transition: all 0.2s ease-in-out;
-      }
+      a {
+        position: relative;
+        display: flex;
+        justify-content: center;
+        align-items: center;
 
-      &:hover::after {
-        width: 100%;
-        border: 1px solid #222;
-      }
+        padding: 5px 3px 3px;
+        font-size: 14px;
+        font-weight: 600;
 
-      svg {
-        margin-right: 5px;
+        &::after {
+          content: '';
+          position: absolute;
+          bottom: 0;
+          width: 0;
+          transition: all 0.2s ease-in-out;
+        }
+
+        &:hover::after {
+          width: 100%;
+          border: 1px solid #222;
+        }
+
+        svg {
+          margin-right: 5px;
+        }
       }
     }
   }
