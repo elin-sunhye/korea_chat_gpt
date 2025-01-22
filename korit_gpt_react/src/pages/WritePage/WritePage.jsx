@@ -1,8 +1,7 @@
 /** @jsxImportSource @emotion/react */
-import axios from 'axios';
 import * as s from './style';
-
 import { useEffect, useState } from 'react';
+import axios from 'axios';
 import ReactQuill from 'react-quill';
 
 export default function WritePage() {
@@ -64,11 +63,21 @@ export default function WritePage() {
   const handleWriteSubmitOnClick = async () => {
     console.log(inpValue);
     try {
-      const response = await axios.post(
+      // axios
+      //   .post('http://localhost:8080/servlet_study_war/api/board', inpValue)
+      //   .then((res) => console.log(res));
+
+      const resp = await axios.post(
         'http://localhost:8080/servlet_study_war/api/board',
         inpValue
       );
-    } catch (e) {}
+
+      console.log('resp', resp);
+
+      alert('Success to add board');
+    } catch (e) {
+      console.error(e);
+    }
   };
 
   return (
