@@ -55,10 +55,12 @@ export default function SigninPage() {
 
   const handleSigninSubmitOnClick = async (e) => {
     try {
-      const response = await axios.post(
+      const resp = await axios.post(
         'http://localhost:8080/servlet_study_war/api/signin',
         inpValue
       );
+      console.log(resp);
+      // alert();
     } catch (e) {
       console.error(e);
     }
@@ -78,7 +80,7 @@ export default function SigninPage() {
           ref={inpRefs[0]}
         />
         <input
-          type="text"
+          type="password"
           name="password"
           id="password"
           placeholder="비밀번호"
