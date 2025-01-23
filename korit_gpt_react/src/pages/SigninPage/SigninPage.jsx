@@ -2,15 +2,16 @@
 import * as s from './style';
 import React, { useEffect, useRef, useState } from 'react';
 import axios from 'axios';
-import { Link, useSearchParams } from 'react-router-dom';
+import { Link, useNavigate, useSearchParams } from 'react-router-dom';
 
 export default function SigninPage() {
+  const navigate = useNavigate();
   const [searchParams] = useSearchParams();
 
   useEffect(() => {
     setInpValue({
       ...inpValue,
-      username: searchParams.get('username'),
+      username: searchParams.get('username') || '',
     });
   }, [searchParams.get('username')]);
 
@@ -59,7 +60,8 @@ export default function SigninPage() {
         'http://localhost:8080/servlet_study_war/api/signin',
         inpValue
       );
-      console.log(resp);
+      localStorage.setItem('AccessToken', resp.data.body);
+      navigate('/');
       // alert();
     } catch (e) {
       console.error(e);
