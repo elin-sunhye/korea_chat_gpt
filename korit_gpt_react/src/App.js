@@ -1,4 +1,4 @@
-import { Route, Routes, useLocation } from 'react-router-dom';
+import { Route, Routes } from 'react-router-dom';
 import WritePage from './pages/WritePage/WritePage';
 import IndexPage from './pages/IndexPage/IndexPage';
 import ListPage from './pages/ListPage/ListPage';
@@ -9,9 +9,11 @@ import SignupPage from './pages/SignupPage/SignupPage';
 import SigninPage from './pages/SigninPage/SigninPage';
 import axios from 'axios';
 import { useQuery } from 'react-query';
+import { accessTokenAtomState } from './atoms/authAtom';
+import { useRecoilState } from 'recoil';
 
 export default function App() {
-  const location = useLocation();
+  const [accessToken, setAccessToken] = useRecoilState(accessTokenAtomState);
 
   const authenticatedUser = async () => {
     return await axios.get(
@@ -33,12 +35,12 @@ export default function App() {
     ['authenticatedUserQuery'], // key값
     authenticatedUser, // option 옵션
     {
+      staleTime: 0, // 데이터를 무효화 시 즉시 다시 가져오도록 설정
+      retry: 0, // 실패하면 다시 요청해라
       refetchOnWindowFocus: false, // 다시 이 사이트에 포커스가 오면 다시 요청할꺼니?
-      enabled: !!localStorage.getItem('AccessToken'),
+      enabled: !!accessToken,
     }
   );
-
-  console.log(authenticatedUserQuery.isLoading);
 
   return (
     <>

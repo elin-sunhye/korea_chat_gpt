@@ -3,10 +3,14 @@ import * as s from './style';
 import React, { useEffect, useRef, useState } from 'react';
 import axios from 'axios';
 import { Link, useNavigate, useSearchParams } from 'react-router-dom';
+import { useRecoilState } from 'recoil';
+import { accessTokenAtomState } from '../../atoms/authAtom';
 
 export default function SigninPage() {
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
+
+  const [accessToken, setAccessToken] = useRecoilState(accessTokenAtomState);
 
   useEffect(() => {
     setInpValue({
@@ -61,6 +65,7 @@ export default function SigninPage() {
         inpValue
       );
       localStorage.setItem('AccessToken', resp.data.body);
+      setAccessToken(localStorage.getItem('AccessToken'));
       navigate('/');
       // alert();
     } catch (e) {

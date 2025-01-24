@@ -1,5 +1,5 @@
 /** @jsxImportSource @emotion/react */
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import * as s from './style';
 
 import {
@@ -12,8 +12,12 @@ import {
 } from 'react-icons/lu';
 import axios from 'axios';
 import { useQuery, useQueryClient } from 'react-query';
+import { useSetRecoilState } from 'recoil';
+import { accessTokenAtomState } from '../../atoms/authAtom';
 
 export default function MainHeader() {
+  const navigator = useNavigate();
+  const setAccessToken = useSetRecoilState(accessTokenAtomState);
   const queryClient = useQueryClient();
   const userId = queryClient.getQueryData(['authenticatedUserQuery'])?.data
     .body;
@@ -33,6 +37,22 @@ export default function MainHeader() {
     refetchOnWindowFocus: false,
     enabled: !!userId,
   });
+
+  const handleLogoutOnClick = () => {
+    localStorage.removeItem('AccessToken');
+    // invalidateQueries 만료 시켜라 === 캐시 지워라 업테이트할떄 사용 (로그인)
+    // queryClient.invalidateQueries(['authenticatedUserQuery'], {
+    //   refetchType: 'active',
+    // });
+    queryClient.removeQueries(['authenticatedUserQuery']);
+
+    // 모든 queryClient 상태를 지워버림
+    // queryClient.clear();
+    // 쿼리 자체를 날림
+    // queryClient.removeQueries();
+    setAccessToken(localStorage.getItem('AccessToken'));
+    navigator('/signin');
+  };
 
   return (
     <div css={s.layout}>
@@ -61,14 +81,16 @@ export default function MainHeader() {
             <li>
               <Link to={'/mypage'}>
                 <LuUser />
-                {getUserQuery.isLoading ? '' : getUserQuery.data.data.username}
+                {getUserQuery.isLoading
+                  ? ''
+                  : getUserQuery.data.data.body.username}
               </Link>
             </li>
             <li>
-              <Link to={'/logout'}>
+              <a onClick={handleLogoutOnClick}>
                 <LuLogOut />
                 로그아웃
-              </Link>
+              </a>
             </li>
           </ul>
         ) : (
