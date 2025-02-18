@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.korit.korit_gpt_java_springboot.mapper.book.AuthorMapper">
+
+<!--    저자 전체 조회-->
+    <resultMap id="authorResultMap" type="com.korit.korit_gpt_java_springboot.entity.book.Author">
+        <id property="authorId" column="author_id"/>
+        <result property="authorName" column="author_name"/>
+    </resultMap>
+    <select id="selectAuthorsAll" resultMap="authorResultMap">
+        select
+            author_id,
+            author_name
+        from
+            author_tb
+    </select>
+
+<!--    저자 추가-->
+    <insert id="addAuthor">
+        insert into author_tb
+        values(default, #{author_name})
+    </insert>
+
+</mapper>

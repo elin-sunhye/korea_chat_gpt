@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.korit.korit_gpt_java_springboot.mapper.book.CategoryMapper">
+
+<!--    카테고리 전체 조회-->
+    <resultMap id="categoryResultMap" type="com.korit.korit_gpt_java_springboot.entity.book.Category">
+        <id property="categoryId" column="category_id"/>
+        <result property="categoryName" column="category_name"/>
+    </resultMap>
+    <select id="selectCategoriesAll" resultMap="categoryResultMap">
+        select
+            category_id,
+            category_name
+        from
+            category_tb
+    </select>
+
+<!--    카테고리 추가-->
+    <insert id="addCategory" keyProperty="categoryId" useGeneratedKeys="true">
+        insert into category_tb
+        values(default, #{categoryName})
+    </insert>
+
+<!--    카테고리 검색-->
+    <resultMap id="categorySearchResultMap" type="com.korit.korit_gpt_java_springboot.entity.book.Category">
+        <id property="categoryId" column="category_id"/>
+        <result property="categoryName" column="category_name"/>
+    </resultMap>
+    <select id="selectAllByNameContaining" resultMap="categoryResultMap">
+        select
+            category_id,
+            category_name
+        from
+            category_tb
+        where
+            category_name Like #{categoryName}
+    </select>
+</mapper>

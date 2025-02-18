@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.korit.korit_gpt_java_springboot.mapper.StudentStudyMapper">
+<!--    학과 전체 조회-->
+    <resultMap id="majorResultMap" type="com.korit.korit_gpt_java_springboot.entity.study.Major">
+        <id property="majorId" column="major_id"/>
+        <result property="majorName" column="major_name"/>
+    </resultMap>
+
+    <select id="selectMajorsAll" resultMap="majorResultMap">
+        select
+            major_id,
+            major_name
+        from
+            major_tb
+    </select>
+
+<!--    교수 전제 조회-->
+    <resultMap id="instructorResultMap" type="com.korit.korit_gpt_java_springboot.entity.study.Instructor">
+        <id property="instructorId" column="instructor_id"/>
+        <result property="instructorName" column="instructor_name"/>
+    </resultMap>
+
+    <select id="selectInstructorsAll" resultMap="instructorResultMap">
+        select
+            instructor_id,
+            instructor_name
+        from
+            instructor_tb
+    </select>
+
+<!--    insert, delete, update는 성공건수로 값이 리턴된다-->
+<!--    학과 추가-->
+    <insert id="insertMajor" keyProperty="majorId" useGeneratedKeys="true">
+        insert into major_tb
+        values (default, #{majorName})
+    </insert>
+
+<!--    교수 추가-->
+    <insert id="insertInstructor" keyProperty="instructorId" useGeneratedKeys="true">
+        insert into instructor_tb
+        values (default, #{instructorName})
+    </insert>
+
+<!--    학과 수정-->
+    <update id="updateMajorName">
+        update
+            major_tb
+        set
+            major_name = #{majorName}
+        where
+            major_id = #{majorId}
+    </update>
+
+</mapper>
+
+        <!--https://mybatis.org/mybatis-3/getting-started.html-->
+        <!--Exploring Mapped SQL Statements-->
+        <!--<mapper namespace=" mapper 인터페이스 파일 경로">-->
+        <!--<resultMap id="map 이름 지어줌" type="entity 파일 경로">-->
+        <!--<id property="entity 안에 들어있는 변수명" column="DB 컬럼 이름"/> Primary Key(PK)-->
+        <!--<result property="entity 안에 들어있는 변수명" column="DB 컬럼 이름"/>-->
+        <!--<select id="구현할 mapper 인터페이스 내의 메소드 명" resultMap="resultMap에서 지어준 id">-->

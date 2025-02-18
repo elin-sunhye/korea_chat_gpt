@@ -1,0 +1,32 @@
+#.properties 파일
+#spring.application.name=korit_gpt_java_springboot
+#swagger
+#spring.mvc.pathmatch.matching-strategy=ant_path_matcher
+#DB
+#spring.datasource.driver-class-name=com.mysql.cj.jdbc.Driver
+
+#.yml 계층 파일 / 띄어쓰기 Tab 크기(2?) 중요
+spring:
+  config:
+    import: application-secret.yml
+  mvc:
+    pathmatch:
+      matching-strategy: ant_path_matcher
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+mybatis:
+  mapper-locations:
+    - /mappers/*.xml
+    - /mappers/book/*.xml
+    - /mappers/user/*.xml
+    - /mappers/post/*.xml
+
+logging:
+  config: classpath:log4j2.xml
+  file:
+    path: logs
+
+oauth2:
+  client:
+    redirect_uri: http://localhost:3000/oauth2
