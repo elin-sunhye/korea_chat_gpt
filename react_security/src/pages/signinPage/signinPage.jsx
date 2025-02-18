@@ -1,16 +1,16 @@
 import React, { useState } from 'react';
+import { useQueryClient } from '@tanstack/react-query';
 import {
   Box,
   Button,
   Card,
-  CardContent,
+CardContent,
   Container,
   TextField,
   Typography,
 } from '@mui/material';
-import { api } from '../../api/config/axiosConfig';
+import { api, setAccessToken } from '../../api/config/axiosConfig';
 import { Link, useNavigate } from 'react-router-dom';
-import { useQueryClient } from 'react-query';
 
 export default function SigninPage(p) {
   const navigate = useNavigate();
@@ -27,7 +27,7 @@ export default function SigninPage(p) {
     password: '',
   });
 
-  const [isSigninError, setSigninError] = useState(false);
+  const [isSigninError, setIsSigninError] = useState(false);
 
   const handleSigninInpOnChange = (e) => {
     setSigninInp({
@@ -56,27 +56,14 @@ export default function SigninPage(p) {
       console.log(resp.data.data);
 
       const accessToken = resp.data.data;
-      if (!!accessToken) {
-        localStorage.setItem('AccessToken', accessToken);
-        
-        // api 컴포넌트에 headers 설정을 했지만, 최초 한번만 실행되기 떄문에 api 날린 후 headers에 다시 셋팅 안헤줌
-        // 셋팅 방법 1 - 상태 유지
-        api.interceptors.request.use((config) => {
-          config.headers.Authorization = `Bearer ${accessToken}`;
-        });
-      }
-      queryClient.refetchQueries(['userQuery']);
-
-      setSigninError(false);
+      setAccessToken(accessToken);
+      queryClient.invalidateQueries({ queryKey: ['userQuery'] });
       navigate('/');
       // 셋팅 방법 2 - 상태 초기화
       // window.location.href = "/"
     } catch (e) {
       console.error(e.response.data);
-      setErrors({
-        username: e.response.data.username,
-        password: '',
-      });
+      setIsSigninError(true);
     }
   };
 
