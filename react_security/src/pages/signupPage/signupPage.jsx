@@ -73,7 +73,7 @@ export default function SignuPage(p) {
 
   const handleSignupBtnOnClick = async (e) => {
     console.log(signupInp);
-    if (Object.entries(errors).filter((entry) => !!entry[1]) > 0) {
+    if (Object.entries(errors).filter((entry) => !!entry[1]).length > 0) {
       return;
     }
 

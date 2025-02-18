@@ -10,9 +10,12 @@ import {
 } from '@mui/material';
 import { api } from '../../api/config/axiosConfig';
 import { Link, useNavigate } from 'react-router-dom';
+import { useQueryClient } from 'react-query';
 
 export default function SigninPage(p) {
   const navigate = useNavigate();
+
+  const queryClient = useQueryClient();
 
   const [signinInp, setSigninInp] = useState({
     username: '',
@@ -24,6 +27,8 @@ export default function SigninPage(p) {
     password: '',
   });
 
+  const [isSigninError, setSigninError] = useState(false);
+
   const handleSigninInpOnChange = (e) => {
     setSigninInp({
       ...signinInp,
@@ -34,37 +39,38 @@ export default function SigninPage(p) {
   const handleInpOnBlur = (e) => {
     // 정규식 테스트 사이트 https://regexr.com/
     const { name, value } = e.target;
-    let message = '';
-
-    if (name === 'username' && !value) {
-      message = '사용자 이름을 입력하세요.';
-    }
-
-    if (name === 'password' && !value) {
-      message = '비밀번호를 입력하세요.';
-    }
-
-    setErrors({
-      ...errors,
-      [name]: message,
-    });
+    setErrors((prev) => ({
+      ...prev,
+      [name]: !value.trim() ? `${name}을 입력하세요.` : '',
+    }));
   };
 
   const handleSigninBtnOnClick = async (e) => {
     console.log(signinInp);
-    if (Object.entries(errors).filter((entry) => !!entry[1]) > 0) {
+    if (Object.entries(errors).filter((entry) => !!entry[1]).length > 0) {
       return;
     }
 
     try {
       const resp = await api.post('/api/auth/signin', signinInp);
-
       console.log(resp.data.data);
 
-      if (!!resp.data.data) {
-        localStorage.setItem('AccessToken', resp.data.data);
-        navigate('/');
+      const accessToken = resp.data.data;
+      if (!!accessToken) {
+        localStorage.setItem('AccessToken', accessToken);
+        
+        // api 컴포넌트에 headers 설정을 했지만, 최초 한번만 실행되기 떄문에 api 날린 후 headers에 다시 셋팅 안헤줌
+        // 셋팅 방법 1 - 상태 유지
+        api.interceptors.request.use((config) => {
+          config.headers.Authorization = `Bearer ${accessToken}`;
+        });
       }
+      queryClient.refetchQueries(['userQuery']);
+
+      setSigninError(false);
+      navigate('/');
+      // 셋팅 방법 2 - 상태 초기화
+      // window.location.href = "/"
     } catch (e) {
       console.error(e.response.data);
       setErrors({
@@ -103,6 +109,12 @@ export default function SigninPage(p) {
                 error={!!errors.password}
                 helperText={errors.password}
               />
+
+              {isSigninError && (
+                <Typography variant="body2" textAlign={'center'} color="red">
+                  사용자 정보를 다시 확인하세요.
+                </Typography>
+              )}
 
               <Button variant="contained" onClick={handleSigninBtnOnClick}>
                 로그인
