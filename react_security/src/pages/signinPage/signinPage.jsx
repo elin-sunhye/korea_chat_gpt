@@ -4,12 +4,16 @@ import {
   Box,
   Button,
   Card,
-CardContent,
+  CardContent,
   Container,
   TextField,
   Typography,
 } from '@mui/material';
-import { api, setAccessToken } from '../../api/config/axiosConfig';
+import {
+  api,
+  setAccessToken,
+  setRefreshToken,
+} from '../../api/config/axiosConfig';
 import { Link, useNavigate } from 'react-router-dom';
 
 export default function SigninPage(p) {
@@ -53,16 +57,19 @@ export default function SigninPage(p) {
 
     try {
       const resp = await api.post('/api/auth/signin', signinInp);
-      console.log(resp.data.data);
+      console.log('resp.data : ', resp.data);
 
-      const accessToken = resp.data.data;
+      const accessToken = resp.data.accessToken;
+      const refreshToken = resp.data.refreshToken;
       setAccessToken(accessToken);
+      setRefreshToken(refreshToken);
+
       queryClient.invalidateQueries({ queryKey: ['userQuery'] });
       navigate('/');
       // 셋팅 방법 2 - 상태 초기화
       // window.location.href = "/"
     } catch (e) {
-      console.error(e.response.data);
+      // console.error(e.response);
       setIsSigninError(true);
     }
   };
