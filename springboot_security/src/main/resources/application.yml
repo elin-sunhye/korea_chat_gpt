@@ -1,6 +1,7 @@
 spring:
   config:
     import: application-secret.yml
-
-  datasource:
-    driver-class-name: com.mysql.cj.jdbc.Driver
+mybatis:
+  mapper-locations:
+    - /mappers/*.xml
+    - /mappers/user/*.xml
