@@ -5,6 +5,7 @@ import { SiGoogle, SiNaver, SiKakao } from 'react-icons/si';
 import { Link, useNavigate } from 'react-router-dom';
 import ValidInp from '../../components/auth/ValidInp/ValidInp';
 import { useJoinMutation } from '../../mutations/authMutation';
+import Swal from 'sweetalert2';
 
 export default function Join(p) {
   const navigate = useNavigate();
@@ -15,13 +16,6 @@ export default function Join(p) {
     email: '',
     password: '',
     passwordCk: '',
-  });
-
-  const [inpValidError, setInpValidError] = useState({
-    username: false,
-    email: false,
-    password: false,
-    passwordCk: false,
   });
 
   const handleInpOnChange = (e) => {
@@ -39,6 +33,13 @@ export default function Join(p) {
     }));
   };
 
+  const [inpValidError, setInpValidError] = useState({
+    username: false,
+    email: false,
+    password: false,
+    passwordCk: false,
+  });
+
   const isErrors = () => {
     const isEmpty = Object.values(inpValue)
       .map((value) => !!value)
@@ -50,7 +51,12 @@ export default function Join(p) {
 
   const handleJoinOnClick = (e) => {
     if (isErrors()) {
-      alert(`가입 정보를 확인해주세요.`);
+      Swal.fire({
+        title: 'Error!',
+        text: '가입정보를 확인하세요.',
+        icon: 'error',
+        confirmButtonText: '확인',
+      });
       return;
     }
 
@@ -60,9 +66,16 @@ export default function Join(p) {
         email: inpValue.email,
         password: inpValue.password,
       })
-      .then((resp) => {
-        alert('회원가입되었습니다.');
-        navigate('/auth/login');
+      .then(async (resp) => {
+        await Swal.fire({
+          title: 'Success!',
+          text: '회원가입되었습니다 :)',
+          timer: 1000,
+          icon: 'success',
+          confirmButtonText: '확인',
+        });
+
+        navigate(`/auth/login?username=${resp.data.username}`);
       })
       .catch((e) => {
         if (e.status === 400) {

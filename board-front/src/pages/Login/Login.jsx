@@ -1,10 +1,95 @@
 /** @jsxImportSource @emotion/react */
 import * as s from './style';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { SiGoogle, SiNaver, SiKakao } from 'react-icons/si';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate, useSearchParams } from 'react-router-dom';
+import ValidInp from '../../components/auth/ValidInp/ValidInp';
+import { useLoginMutation } from '../../mutations/authMutation';
+import Swal from 'sweetalert2';
+import { setLocalStorage } from '../../configs/axiosConfig';
+import { useUserMeQuery } from '../../queries/useUserMeQuery';
 
 export default function Login(p) {
+  const navigate = useNavigate();
+
+  const loginUser = useUserMeQuery();
+
+  const [searchParams, setSearchParams] = useSearchParams();
+
+  const loginMutation = useLoginMutation(); // .mutate가 호출 되어야지만 useJoinMutation 내부 함수 실행
+
+  const [inpValue, setInpValue] = useState({
+    username: searchParams.get('username') || '',
+    password: '',
+  });
+
+  useEffect(() => {
+    setInpValue((prev) => ({
+      ...prev,
+      username: searchParams.get('username') || '',
+    }));
+  }, [searchParams]);
+
+  const handleInpOnChange = (e) => {
+    setInpValue((prev) => ({
+      ...prev,
+      [e.target.name]: e.target.value,
+    }));
+
+    setInpValidError((prev) => ({
+      ...prev,
+      password: false,
+    }));
+  };
+
+  const [inpValidError, setInpValidError] = useState({
+    password: false,
+  });
+
+  const isErrors = () => {
+    const isEmpty = Object.values(inpValue)
+      .map((value) => !!value)
+      .includes(false);
+    const isValid = Object.values(inpValidError).includes(true);
+
+    return isEmpty || isValid; // 에러가 있다!
+  };
+
+  const handleLoginOnClick = async () => {
+    if (isErrors()) {
+      Swal.fire({
+        title: 'Error!',
+        text: '가입정보를 확인하세요.',
+        icon: 'error',
+        confirmButtonText: '확인',
+      });
+      return;
+    }
+
+    try {
+      const resp = await loginMutation.mutateAsync(inpValue);
+      setLocalStorage(resp.data.name, resp.data.token);
+
+      await Swal.fire({
+        title: 'Success!',
+        text: '환영합니다 :)',
+        timer: 1000,
+        icon: 'success',
+        confirmButtonText: '확인',
+      });
+
+      loginUser.refetch();
+      navigate(`/`);
+    } catch (e) {
+      Swal.fire({
+        title: '로그인 실패!',
+        text: '사용자 정보를 확인하세요.',
+        icon: 'error',
+        confirmButtonText: '확인',
+      });
+    }
+  };
+
   return (
     <div css={s.layout}>
       <div>
@@ -42,17 +127,24 @@ export default function Login(p) {
 
           <div>
             <div css={s.groupBox}>
-              <input
-                type="text"
-                placeholder="Enter your email address"
-                css={s.textInp}
+              <ValidInp
+                type={'text'}
+                name={'username'}
+                placeholder={'Enter your email address'}
+                value={inpValue.username}
+                onChange={handleInpOnChange}
               />
             </div>
             <div css={s.groupBox}>
-              <input
-                type="password"
-                placeholder="Enter your password"
-                css={s.textInp}
+              <ValidInp
+                type={'password'}
+                name={'password'}
+                placeholder={'password'}
+                value={inpValue.password}
+                onChange={handleInpOnChange}
+                inpValidError={inpValidError}
+                setInpValidError={setInpValidError}
+                errorMessage={'로그인 정보를 확인하세요.'}
               />
             </div>
 
@@ -62,7 +154,11 @@ export default function Login(p) {
             </p>
 
             <div css={s.groupBox}>
-              <button type="button" css={s.accountBtn}>
+              <button
+                type="button"
+                css={s.accountBtn}
+                onClick={handleLoginOnClick}
+              >
                 Login
               </button>
             </div>

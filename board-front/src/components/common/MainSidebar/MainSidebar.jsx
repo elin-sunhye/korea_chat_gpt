@@ -7,9 +7,18 @@ import { emptyBtn } from '../../../styles/buttons';
 import { useRecoilState } from 'recoil';
 import { mainSidebarIsOpenState } from '../../../atoms/mainSidebarAtom';
 import { LuLockKeyhole } from 'react-icons/lu';
+import { useUserMeQuery } from '../../../queries/useUserMeQuery';
+import { useNavigate } from 'react-router-dom';
 
 export default function MainSidebar() {
+  const navigate = useNavigate();
   const [isOpen, setIsOpen] = useRecoilState(mainSidebarIsOpenState);
+
+  const loginUser = useUserMeQuery();
+
+  const handleLoginBtnOnClick = (e) => {
+    navigate('/auth/login');
+  };
 
   const handleSidebarClose = (e) => {
     setIsOpen(!isOpen);
@@ -21,12 +30,25 @@ export default function MainSidebar() {
         <div css={s.groupLayout}>
           <div css={s.topGroup}>
             <div css={s.user}>
-              <button type="button" css={emptyBtn}>
-                <span css={s.authText}>
-                  <LuLockKeyhole />
-                  로그인 후 이용하기
-                </span>
-              </button>
+              {loginUser.isError ? (
+                <button
+                  type="button"
+                  css={emptyBtn}
+                  onClick={handleLoginBtnOnClick}
+                >
+                  <span css={s.authText}>
+                    <LuLockKeyhole />
+                    로그인 후 이용하기
+                  </span>
+                </button>
+              ) : (
+                <button type="button" css={emptyBtn}>
+                  <span css={s.authText}>
+                    <LuLockKeyhole />
+                    {loginUser.data?.data?.nickname}
+                  </span>
+                </button>
+              )}
             </div>
             <button type="button" css={basicBtn} onClick={handleSidebarClose}>
               <FiChevronsLeft />

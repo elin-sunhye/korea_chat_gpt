@@ -3,20 +3,20 @@ import * as s from './style';
 import React, { useState } from 'react';
 
 export default function ValidInp({
-  type,
-  name,
-  placeholder,
+  type = 'text',
+  name = '',
+  placeholder = '',
   value,
-  onChange,
+  onChange = null,
   onFocus = null,
-  regexp,
-  errorMessage,
-  inpValidError,
-  setInpValidError,
+  regexp = null,
+  errorMessage = '',
+  inpValidError = null,
+  setInpValidError = null,
 }) {
   // 포커스가 나갔을 때
   const handleOnBlur = (e) => {
-    if (value == '') {
+    if (!regexp) {
       return;
     }
 
@@ -38,7 +38,9 @@ export default function ValidInp({
         onBlur={handleOnBlur}
         css={s.textInp}
       />
-      {!!inpValidError[name] && <p css={s.messageTxt}>{errorMessage}</p>}
+      {!!inpValidError && !!inpValidError[name] && (
+        <p css={s.messageTxt}>{errorMessage}</p>
+      )}
     </div>
   );
 }
