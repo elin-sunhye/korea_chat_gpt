@@ -55,6 +55,27 @@ export const authText = css`
   align-items: center;
 
   & svg {
-    margin-right: 0.5rem;
+    margin-right: 1rem;
+  }
+`;
+
+export const profileImgBox = css`
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+
+  box-sizing: border-box;
+  border-radius: 0.5rem;
+  margin-right: 1rem;
+
+  width: 3rem;
+  aspect-ratio: 1 / 1;
+  overflow: hidden;
+
+  background-color: #fff;
+
+  & img {
+    width: 100%;
+    height: auto;
   }
 `;

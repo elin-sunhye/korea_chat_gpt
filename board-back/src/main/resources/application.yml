@@ -39,6 +39,10 @@ spring:
   config:
     activate:
       on-profile: common
+  servlet:
+    multipart:
+      max-file-size: 100MB #업로드 가능한 단일 파일 최대 크기
+      max-request-size: 1000MB #요청 시 한번에 받을수 있는 파일들의 최대 크기
 mybatis:
   mapper-locations:
     - /mappers/*.xml

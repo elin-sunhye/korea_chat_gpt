@@ -17,6 +17,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -24,15 +25,17 @@ import java.util.List;
 public class UserService {
 
     @Autowired
-    UserRepository userRepository;
+    private UserRepository userRepository;
     @Autowired
-    UserRoleRepository userRoleRepository;
+    private UserRoleRepository userRoleRepository;
+    @Autowired
+    private FileService fileService;
 
     @Autowired
-    BCryptPasswordEncoder passwordEncoder;
+    private BCryptPasswordEncoder passwordEncoder;
 
     @Autowired
-    JwtUtil jwtUtil;
+    private JwtUtil jwtUtil;
 
     public boolean duplicatedByUsername(String username) {
         return userRepository.findByUsername(username).isPresent();
@@ -85,7 +88,7 @@ public class UserService {
         }
 
 //        user 정보도 있고 password도 같다면 jwtUtil로 accessToken refreshToken 생성
-        accessToken = jwtUtil.generateToken(Integer.toString(foundUser.getUserId()), foundUser.getUsername(), false);
+        accessToken = jwtUtil.generateToken(Integer.toString(foundUser.getUserId()), foundUser.getUsername(), true);
         refreshToken = jwtUtil.generateToken(Integer.toString(foundUser.getUserId()), foundUser.getUsername(), true);
 
         return RespTokenDto.builder()
@@ -93,5 +96,21 @@ public class UserService {
                 .name("AccessToken")
                 .token(accessToken)
                 .build();
+    }
+
+    public void updateProfileImg(User user, MultipartFile file) {
+        final String PROFILE_IMG_FILE_PATH = "/upload/user/profile";
+        String saveFilename = fileService.saveFile(PROFILE_IMG_FILE_PATH, file); // 폴더에 저정
+        userRepository.updateProfileImg(user.getUserId(), saveFilename); // 서버에 저장
+
+//        이전 이미지가 있는지 없는지 확인
+        if(user.getProfileImg() == null) {
+            return;
+        }
+        fileService.delFile(PROFILE_IMG_FILE_PATH + "/" + user.getProfileImg()); // 폴더에 있는 이전 이미지 삭제
+    }
+
+    public void updateNickname(User user, String nickname) {
+        userRepository.updateNickname(user.getUserId(), nickname);
     }
 }

@@ -12,16 +12,19 @@ import { useNavigate } from 'react-router-dom';
 
 export default function MainSidebar() {
   const navigate = useNavigate();
+  const loginUser = useUserMeQuery();
+
   const [isOpen, setIsOpen] = useRecoilState(mainSidebarIsOpenState);
 
-  const loginUser = useUserMeQuery();
+  const handleSidebarClose = (e) => {
+    setIsOpen(!isOpen);
+  };
 
   const handleLoginBtnOnClick = (e) => {
     navigate('/auth/login');
   };
-
-  const handleSidebarClose = (e) => {
-    setIsOpen(!isOpen);
+  const handleAccountBtnOnClick = (e) => {
+    navigate('/account/setting');
   };
 
   return (
@@ -42,9 +45,20 @@ export default function MainSidebar() {
                   </span>
                 </button>
               ) : (
-                <button type="button" css={emptyBtn}>
+                <button
+                  type="button"
+                  css={emptyBtn}
+                  onClick={handleAccountBtnOnClick}
+                >
                   <span css={s.authText}>
-                    <LuLockKeyhole />
+                    <span css={s.profileImgBox}>
+                      {!loginUser.isLoading && (
+                        <img
+                          src={`http://localhost:8080/image/user/profile/${loginUser?.data?.data.profileImg}`}
+                          alt="프로필 이미지"
+                        />
+                      )}
+                    </span>
                     {loginUser.data?.data?.nickname}
                   </span>
                 </button>

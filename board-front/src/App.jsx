@@ -6,7 +6,7 @@ import MainSidebar from './components/common/MainSidebar/MainSidebar';
 import Login from './pages/Login/Login';
 import Join from './pages/Join/Join';
 import { Route, Routes } from 'react-router-dom';
-import { useUserMeQuery } from './queries/useUserMeQuery';
+import Account from './pages/Account/Account';
 
 function App() {
   return (
@@ -16,6 +16,7 @@ function App() {
         <MainSidebar />
         <MainContainer>
           <Routes>
+            <Route path="/account/setting" element={<Account />} />
             <Route path="/auth/login" element={<Login />} />
             <Route path="/auth/join" element={<Join />} />
           </Routes>

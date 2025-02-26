@@ -3,7 +3,7 @@ import { joinApi, loginApi } from '../apis/authApi';
 
 export const useJoinMutation = () =>
   useMutation({
-    mutationKey: ['joinMutation'],
+    mutationKey: ['useJoinMutation'],
     mutationFn: joinApi,
     retry: 0,
   });
@@ -11,7 +11,7 @@ export const useJoinMutation = () =>
 
 export const useLoginMutation = () =>
   useMutation({
-    mutationKey: ['loginMutation'],
+    mutationKey: ['useLoginMutation'],
     mutationFn: loginApi,
     retry: 0,
   });

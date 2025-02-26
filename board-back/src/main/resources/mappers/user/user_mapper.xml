@@ -113,6 +113,22 @@
             now()
         )
     </insert>
+
+    <update id="updateProfileImgByUserId">
+        update user_tb
+        set
+            profile_img = #{profileImg}
+        where
+            user_id = #{userId}
+    </update>
+
+    <update id="updateNicknameByUserId">
+        update user_tb
+        set
+            nickname = #{nickname}
+        where
+            user_id = #{userId}
+    </update>
 </mapper>
 
 
