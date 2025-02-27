@@ -17,21 +17,24 @@ public class JwtUtil {
     private Key key;
     private Long accessTokenExpired;
     private Long refreshTokenExpired;
+    private Long emailTokenExpired;
 
 //    JwtUtil 생성 시 토큰 및 리프레시 시간 셋팅
     public JwtUtil(@Value("${jwt.secret}") String secret) {
         key = Keys.hmacShaKeyFor(secret.getBytes(StandardCharsets.UTF_8));
         accessTokenExpired = 1000l * 60 * 60;
         refreshTokenExpired = 1000l * 60 * 60 * 24 * 7;
+        emailTokenExpired = 1000l * 60 * 5;
     }
 
 //    토큰 생성
-    public String generateToken (String userId, String username, boolean isRefreshToken) {
+    public String generateToken (String userId, String username, Date expires) {
         return Jwts.builder()
                 .setId(userId)
                 .setSubject(username)
                 .setExpiration(
-                        new Date(System.currentTimeMillis() + (isRefreshToken ? refreshTokenExpired : accessTokenExpired))
+                        expires
+//                     new Date(System.currentTimeMillis() + (isRefreshToken ? refreshTokenExpired : emailTokenExpired))
                 )
                 .signWith(key, SignatureAlgorithm.HS256)
                 .compact();

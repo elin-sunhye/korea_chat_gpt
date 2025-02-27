@@ -19,6 +19,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -30,6 +31,8 @@ public class UserService {
     private UserRoleRepository userRoleRepository;
     @Autowired
     private FileService fileService;
+    @Autowired
+    private EmailService emailService;
 
     @Autowired
     private BCryptPasswordEncoder passwordEncoder;
@@ -62,15 +65,22 @@ public class UserService {
                 .accountExpired(1)
                 .accountLocked(1)
                 .credentialsExpired(1)
-                .accountEnabled(1)
+                .accountEnabled(0)
                 .build();
-
         userRepository.save(user);
+
         UserRole userRole = UserRole.builder()
                 .userId(user.getUserId())
                 .roleId(1)
                 .build();
         userRoleRepository.save(userRole);
+
+        try {
+            emailService.sendAuthMail(reqDto.getEmail(), reqDto.getUsername());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
         return user;
     }
 
@@ -88,8 +98,10 @@ public class UserService {
         }
 
 //        user 정보도 있고 password도 같다면 jwtUtil로 accessToken refreshToken 생성
-        accessToken = jwtUtil.generateToken(Integer.toString(foundUser.getUserId()), foundUser.getUsername(), true);
-        refreshToken = jwtUtil.generateToken(Integer.toString(foundUser.getUserId()), foundUser.getUsername(), true);
+        Date expires = new Date(new Date().getTime() + (1000l * 60 * 60 * 24 * 7));
+
+        accessToken = jwtUtil.generateToken(Integer.toString(foundUser.getUserId()), foundUser.getUsername(), expires);
+        refreshToken = jwtUtil.generateToken(Integer.toString(foundUser.getUserId()), foundUser.getUsername(), expires);
 
         return RespTokenDto.builder()
                 .type("JWT")

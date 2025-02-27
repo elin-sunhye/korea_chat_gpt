@@ -40,4 +40,9 @@ public class UserRepository {
     public void updatePassword(int userId, String password) {
         userMapper.updatePasswordByUserId(userId, password);
     }
+
+    @Transactional(rollbackFor = Exception.class)
+    public void updateAccountEnabled(String username) {
+        userMapper.updateAccountEnabledByUsername(username);
+    }
 }

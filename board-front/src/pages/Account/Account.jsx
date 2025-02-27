@@ -8,6 +8,7 @@ import {
 } from '../../mutations/accountMutation';
 import ReactModal from 'react-modal';
 import PwModal from '../../components/auth/PwModal/PwModal';
+import { api } from '../../configs/axiosConfig';
 
 export default function Account({}) {
   const loginUser = useUserMeQuery();
@@ -102,7 +103,16 @@ export default function Account({}) {
             <h3 css={s.subTitle}>Email</h3>
             <p css={s.subCont}>{loginUser?.data?.data.email || ''}</p>
           </div>
-          <button type="button" css={s.borerBtn}>
+          <button
+            type="button"
+            css={s.borerBtn}
+            onClick={(e) =>
+              api.post('/api/auth/email', {
+                email: 'tjsgp1401@naver.com',
+                username: 'aaa13',
+              })
+            }
+          >
             Change email
           </button>
         </div>

@@ -3,6 +3,7 @@ package com.korit.boardback.controller;
 import com.korit.boardback.security.principal.PrincipalUser;
 import com.korit.boardback.service.FileService;
 import com.korit.boardback.service.UserService;
+import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -18,6 +19,7 @@ public class UserController {
     @Autowired
     private UserService userService;
 
+    @Operation(summary = "로그인한 유저 정보")
     @GetMapping("/user/me")
 //    두개 같은거임 가져오는 방법은 2가지
 //    @AuthenticationPrincipal PrincipalUser principalUser
@@ -29,6 +31,7 @@ public class UserController {
         return ResponseEntity.ok().body(principalUser.getUser());
     }
 
+    @Operation(summary = "프로필 이미지 변경")
     @PostMapping("/user/profile/img")
     public ResponseEntity<?> changeProfileImg(
             @AuthenticationPrincipal PrincipalUser principalUser,
@@ -38,6 +41,7 @@ public class UserController {
         return ResponseEntity.ok().build();
     }
 
+    @Operation(summary = "닉네임 변경")
     @PutMapping("/user/profile/nickname")
     public ResponseEntity<?> changeNickname(
             @AuthenticationPrincipal PrincipalUser principalUser,
@@ -48,6 +52,7 @@ public class UserController {
         return ResponseEntity.ok().build();
     }
 
+    @Operation(summary = "비밀번호 변경")
     @PutMapping("/user/profile/password")
     public ResponseEntity<?> changePassword(
             @AuthenticationPrincipal PrincipalUser principalUser,

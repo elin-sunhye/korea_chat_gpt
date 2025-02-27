@@ -8,6 +8,8 @@ import org.apache.ibatis.annotations.Param;
 public interface UserMapper {
     User selectByUserId(int userId);
     User selectByUsername(String username);
+    User selectByEmail(String email);
+
     int insert(User user);
 
     int updateProfileImgByUserId(
@@ -23,5 +25,9 @@ public interface UserMapper {
     int updatePasswordByUserId(
             @Param("userId") int userId,
             @Param("password") String password
+    );
+
+    int updateAccountEnabledByUsername(
+            @Param("username") String username
     );
 }
