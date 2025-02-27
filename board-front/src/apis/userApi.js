@@ -11,3 +11,6 @@ export const updateProfileImgApi = async (formData) =>
 
 export const updateNicknameApi = async (nickname) =>
   await api.put('/api/user/profile/nickname', { nickname });
+
+export const updatePwApi = async (password) =>
+  await api.put('/api/user/profile/password', { password });

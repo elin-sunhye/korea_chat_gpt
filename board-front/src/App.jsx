@@ -1,26 +1,23 @@
 import { Global } from '@emotion/react';
 import { global } from './styles/global';
 import Mainlayout from './components/common/Mainlayout/Mainlayout';
-import MainContainer from './components/common/MainContainer/MainContainer';
-import MainSidebar from './components/common/MainSidebar/MainSidebar';
-import Login from './pages/Login/Login';
-import Join from './pages/Join/Join';
 import { Route, Routes } from 'react-router-dom';
-import Account from './pages/Account/Account';
+import AuthRoute from './routes/authRoute/authRoute';
+import MainRoute from './routes/mainRoute/mainRoute';
+import { useUserMeQuery } from './queries/useUserMeQuery';
 
 function App() {
+  useUserMeQuery();
+
   return (
     <>
       <Global styles={global} />
+
       <Mainlayout>
-        <MainSidebar />
-        <MainContainer>
-          <Routes>
-            <Route path="/account/setting" element={<Account />} />
-            <Route path="/auth/login" element={<Login />} />
-            <Route path="/auth/join" element={<Join />} />
-          </Routes>
-        </MainContainer>
+        <Routes>
+          <Route path="/auth/*" element={<AuthRoute />} />
+          <Route path="/*" element={<MainRoute />} />
+        </Routes>
       </Mainlayout>
     </>
   );

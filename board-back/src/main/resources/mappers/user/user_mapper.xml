@@ -129,6 +129,14 @@
         where
             user_id = #{userId}
     </update>
+
+    <update id="updatePasswordByUserId">
+        update user_tb
+        set
+            password = #{password}
+        where
+            user_id = #{userId}
+    </update>
 </mapper>
 
 

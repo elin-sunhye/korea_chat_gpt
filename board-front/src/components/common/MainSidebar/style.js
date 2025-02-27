@@ -14,6 +14,10 @@ export const layout = (isOpen) => css`
 `;
 
 export const container = css`
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+
   position: absolute;
   right: 0;
 

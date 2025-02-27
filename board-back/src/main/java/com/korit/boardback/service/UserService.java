@@ -113,4 +113,9 @@ public class UserService {
     public void updateNickname(User user, String nickname) {
         userRepository.updateNickname(user.getUserId(), nickname);
     }
+
+    public void updatePassword(User user, String password) {
+        String encodedPassword = passwordEncoder.encode(password);
+        userRepository.updatePassword(user.getUserId(), encodedPassword);
+    }
 }

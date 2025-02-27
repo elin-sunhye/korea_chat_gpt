@@ -6,13 +6,15 @@ import { basicBtn } from '../../../styles/buttons';
 import { emptyBtn } from '../../../styles/buttons';
 import { useRecoilState } from 'recoil';
 import { mainSidebarIsOpenState } from '../../../atoms/mainSidebarAtom';
-import { LuLockKeyhole } from 'react-icons/lu';
-import { useUserMeQuery } from '../../../queries/useUserMeQuery';
 import { useNavigate } from 'react-router-dom';
+import { BiLogOut } from 'react-icons/bi';
+import { setLocalStorage } from '../../../configs/axiosConfig';
+import { useQueryClient } from '@tanstack/react-query';
 
 export default function MainSidebar() {
   const navigate = useNavigate();
-  const loginUser = useUserMeQuery();
+  const queryClicnet = useQueryClient();
+  const userData = queryClicnet.getQueryData(['useUserMeQuery']);
 
   const [isOpen, setIsOpen] = useRecoilState(mainSidebarIsOpenState);
 
@@ -20,9 +22,6 @@ export default function MainSidebar() {
     setIsOpen(!isOpen);
   };
 
-  const handleLoginBtnOnClick = (e) => {
-    navigate('/auth/login');
-  };
   const handleAccountBtnOnClick = (e) => {
     navigate('/account/setting');
   };
@@ -30,21 +29,10 @@ export default function MainSidebar() {
   return (
     <div css={s.layout(isOpen)}>
       <div css={s.container}>
-        <div css={s.groupLayout}>
-          <div css={s.topGroup}>
-            <div css={s.user}>
-              {loginUser.isError ? (
-                <button
-                  type="button"
-                  css={emptyBtn}
-                  onClick={handleLoginBtnOnClick}
-                >
-                  <span css={s.authText}>
-                    <LuLockKeyhole />
-                    로그인 후 이용하기
-                  </span>
-                </button>
-              ) : (
+        <div>
+          <div css={s.groupLayout}>
+            <div css={s.topGroup}>
+              <div css={s.user}>
                 <button
                   type="button"
                   css={emptyBtn}
@@ -52,20 +40,40 @@ export default function MainSidebar() {
                 >
                   <span css={s.authText}>
                     <span css={s.profileImgBox}>
-                      {!loginUser.isLoading && (
-                        <img
-                          src={`http://localhost:8080/image/user/profile/${loginUser?.data?.data.profileImg}`}
-                          alt="프로필 이미지"
-                        />
-                      )}
+                      <img
+                        src={`http://localhost:8080/image/user/profile/${userData?.data.profileImg}`}
+                        alt="프로필 이미지"
+                      />
                     </span>
-                    {loginUser.data?.data?.nickname}
+                    {userData?.data.nickname}
                   </span>
                 </button>
-              )}
+              </div>
+              <button type="button" css={basicBtn} onClick={handleSidebarClose}>
+                <FiChevronsLeft />
+              </button>
             </div>
-            <button type="button" css={basicBtn} onClick={handleSidebarClose}>
-              <FiChevronsLeft />
+          </div>
+        </div>
+
+        <div>
+          <div css={s.groupLayout}>
+            <button
+              type="button"
+              css={emptyBtn}
+              onClick={async () => {
+                setLocalStorage('AccessToken', null);
+                // .removeQueries 하면 다시 재요청을 안하기 때문에 .invalidateQueries로 실행
+                await queryClicnet.invalidateQueries({
+                  queryKey: ['useUserMeQuery'],
+                });
+                navigate('/auth/login');
+              }}
+            >
+              <span css={s.authText}>
+                <BiLogOut />
+                Logout
+              </span>
             </button>
           </div>
         </div>

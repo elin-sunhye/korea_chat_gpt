@@ -33,7 +33,7 @@ export const header = css`
   align-items: center;
 
   box-sizing: border-box;
-  padding: 1rem 5rem;
+  padding: 1rem 3rem;
 `;
 
 export const headerIco = css`
@@ -52,6 +52,7 @@ export const headerTitle = css`
 `;
 
 export const headerMsg = css`
+  font-size: 1.3rem;
   text-align: center;
 `;
 
@@ -77,6 +78,11 @@ export const inpGroup = css`
 
     background-color: #fafafa;
   }
+`;
+
+export const warnning = css`
+  font-size: 1.3rem;
+  color: #ff3f3f;
 `;
 
 export const setBtn = css`

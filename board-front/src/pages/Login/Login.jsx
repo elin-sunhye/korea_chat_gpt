@@ -7,16 +7,15 @@ import ValidInp from '../../components/auth/ValidInp/ValidInp';
 import { useLoginMutation } from '../../mutations/authMutation';
 import Swal from 'sweetalert2';
 import { setLocalStorage } from '../../configs/axiosConfig';
-import { useUserMeQuery } from '../../queries/useUserMeQuery';
+import { useQueryClient } from '@tanstack/react-query';
 
 export default function Login(p) {
   const navigate = useNavigate();
+  const queryClient = useQueryClient();
 
-  const loginUser = useUserMeQuery();
+  const loginMutation = useLoginMutation(); // .mutate가 호출 되어야지만 useJoinMutation 내부 함수 실행;
 
   const [searchParams, setSearchParams] = useSearchParams();
-
-  const loginMutation = useLoginMutation(); // .mutate가 호출 되어야지만 useJoinMutation 내부 함수 실행
 
   const [inpValue, setInpValue] = useState({
     username: searchParams.get('username') || '',
@@ -75,17 +74,20 @@ export default function Login(p) {
         text: '환영합니다 :)',
         timer: 1000,
         icon: 'success',
-        confirmButtonText: '확인',
+        showConfirmButton: false,
       });
 
-      loginUser.refetch();
-      navigate(`/`);
+      // .invalidateQueries 캐시 삭제가 아니라 캐시 유효하지 않은 캐시로 변경하는 것
+      await queryClient.invalidateQueries({ queryKey: ['useUserMeQuery'] });
+
+      navigate('/');
     } catch (e) {
       Swal.fire({
         title: '로그인 실패!',
         text: '사용자 정보를 확인하세요.',
         icon: 'error',
         confirmButtonText: '확인',
+        confirmButtonColor: ' #ff3f3f',
       });
     }
   };

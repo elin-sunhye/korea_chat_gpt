@@ -35,4 +35,9 @@ public class UserRepository {
     public void updateNickname(int userId, String nickname) {
         userMapper.updateNicknameByUserId(userId, nickname);
     }
+
+    @Transactional(rollbackFor = Exception.class)
+    public void updatePassword(int userId, String password) {
+        userMapper.updatePasswordByUserId(userId, password);
+    }
 }
