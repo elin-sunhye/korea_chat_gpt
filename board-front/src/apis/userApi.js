@@ -14,3 +14,6 @@ export const updateNicknameApi = async (nickname) =>
 
 export const updatePwApi = async (password) =>
   await api.put('/api/user/profile/password', { password });
+
+export const updateEmailApi = async (email) =>
+  await api.put('/api/auth/email', { email });

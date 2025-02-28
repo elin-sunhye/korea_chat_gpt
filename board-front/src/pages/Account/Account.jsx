@@ -9,6 +9,7 @@ import {
 import ReactModal from 'react-modal';
 import PwModal from '../../components/auth/PwModal/PwModal';
 import { api } from '../../configs/axiosConfig';
+import EmailModal from '../../components/auth/EmailModal/EmailModal';
 
 export default function Account({}) {
   const loginUser = useUserMeQuery();
@@ -17,6 +18,7 @@ export default function Account({}) {
 
   const [nickNameValue, setNickNameValue] = useState('');
   const [pwModalOpen, setPwModalOpen] = useState(false);
+  const [emailModalOpen, setEmailModalOpen] = useState(false);
 
   useEffect(() => {
     setNickNameValue(loginUser?.data?.data.nickname || '');
@@ -52,6 +54,9 @@ export default function Account({}) {
 
   const handleChangePasswordBtnOnClick = (e) => {
     setPwModalOpen(!pwModalOpen);
+  };
+  const handleChangeEmailBtnOnClick = (e) => {
+    setEmailModalOpen(!emailModalOpen);
   };
 
   return (
@@ -106,29 +111,29 @@ export default function Account({}) {
           <button
             type="button"
             css={s.borerBtn}
-            onClick={(e) =>
-              api.post('/api/auth/email', {
-                email: 'tjsgp1401@naver.com',
-                username: 'aaa13',
-              })
-            }
+            onClick={handleChangeEmailBtnOnClick}
           >
             Change email
           </button>
         </div>
-        <div css={s.itemGroup}>
-          <div>
-            <h3 css={s.subTitle}>Password</h3>
-            <p css={s.subCont}>계정에 로그인 할 영구 비밀번호를 설정합니다.</p>
+
+        {!!loginUser?.data?.data?.oauth2Name || (
+          <div css={s.itemGroup}>
+            <div>
+              <h3 css={s.subTitle}>Password</h3>
+              <p css={s.subCont}>
+                계정에 로그인 할 영구 비밀번호를 설정합니다.
+              </p>
+            </div>
+            <button
+              type="button"
+              css={s.borerBtn}
+              onClick={handleChangePasswordBtnOnClick}
+            >
+              Change password
+            </button>
           </div>
-          <button
-            type="button"
-            css={s.borerBtn}
-            onClick={handleChangePasswordBtnOnClick}
-          >
-            Change password
-          </button>
-        </div>
+        )}
       </div>
 
       <ReactModal
@@ -152,6 +157,27 @@ export default function Account({}) {
       >
         <PwModal setOpen={setPwModalOpen} />
       </ReactModal>
+
+      <ReactModal
+        isOpen={emailModalOpen}
+        onRequestClose={() => setEmailModalOpen(!emailModalOpen)}
+        style={{
+          overlay: {
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+            backgroundColor: '#00000066',
+          },
+          content: {
+            position: 'static',
+            boxSizing: 'border-box',
+            borderRadius: '1.5rem',
+            width: '37rem',
+            height: 'auto',
+          },
+        }}
+        children={<EmailModal setOpen={setEmailModalOpen} />}
+      />
     </div>
   );
 }

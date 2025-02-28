@@ -17,7 +17,6 @@ export default function MainSidebar() {
   const userData = queryClicnet.getQueryData(['useUserMeQuery']);
 
   const [isOpen, setIsOpen] = useRecoilState(mainSidebarIsOpenState);
-
   const handleSidebarClose = (e) => {
     setIsOpen(!isOpen);
   };
@@ -45,7 +44,7 @@ export default function MainSidebar() {
                         alt="프로필 이미지"
                       />
                     </span>
-                    {userData?.data.nickname}
+                    <span css={s.profileNicknameBox}>{userData?.data.nickname}</span>
                   </span>
                 </button>
               </div>

@@ -58,6 +58,8 @@ export const authText = css`
   display: inline-flex;
   align-items: center;
 
+  width: 21rem;
+
   & svg {
     margin-right: 1rem;
   }
@@ -82,4 +84,13 @@ export const profileImgBox = css`
     width: 100%;
     height: auto;
   }
+`;
+
+export const profileNicknameBox = css`
+  width: calc(100% - 3rem);
+  overflow: hidden;
+
+  text-align: left;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 `;

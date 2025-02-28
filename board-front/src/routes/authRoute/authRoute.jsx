@@ -4,6 +4,7 @@ import Login from '../../pages/Login/Login';
 import Join from '../../pages/Join/Join';
 import NotFound from '../../pages/NotFound/NotFound';
 import { useQueryClient } from '@tanstack/react-query';
+import OAuth2Login from '../../pages/OAuth2Login/OAuth2Login';
 
 export default function AuthRoute({}) {
   const navigate = useNavigate();
@@ -22,6 +23,7 @@ export default function AuthRoute({}) {
     queryState.status === 'error' && (
       <Routes>
         <Route path="/login" element={<Login />} />
+        <Route path="/login/oauth2" element={<OAuth2Login />} />
         <Route path="/join" element={<Join />} />
         <Route path="/*" element={<NotFound />} />
       </Routes>

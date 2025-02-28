@@ -10,8 +10,10 @@ import com.korit.boardback.exception.FieldError;
 import com.korit.boardback.repository.UserRepository;
 import com.korit.boardback.repository.UserRoleRepository;
 import com.korit.boardback.security.jwt.JwtUtil;
+import org.apache.ibatis.javassist.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.authentication.DisabledException;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -39,6 +41,10 @@ public class UserService {
 
     @Autowired
     private JwtUtil jwtUtil;
+
+    public User getUserByUsername(String username) throws NotFoundException {
+        return userRepository.findByUsername(username).orElseThrow(() -> new NotFoundException("사용자를 찾울 수 업습니다."));
+    }
 
     public boolean duplicatedByUsername(String username) {
         return userRepository.findByUsername(username).isPresent();
@@ -97,9 +103,13 @@ public class UserService {
             throw new BadCredentialsException("사용자 정보를 확인하세요.");
         }
 
+//        이메일 인증 여부 -> 0은 인증 안됨 1은 인증되었음
+        if (foundUser.getAccountEnabled() == 0) {
+           throw new DisabledException("이메일 인증이 필요합니다.");
+        }
+
 //        user 정보도 있고 password도 같다면 jwtUtil로 accessToken refreshToken 생성
         Date expires = new Date(new Date().getTime() + (1000l * 60 * 60 * 24 * 7));
-
         accessToken = jwtUtil.generateToken(Integer.toString(foundUser.getUserId()), foundUser.getUsername(), expires);
         refreshToken = jwtUtil.generateToken(Integer.toString(foundUser.getUserId()), foundUser.getUsername(), expires);
 

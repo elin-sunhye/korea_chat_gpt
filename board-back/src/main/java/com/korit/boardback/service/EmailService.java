@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMailMessage;
 import org.springframework.mail.javamail.MimeMessageHelper;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -31,6 +32,7 @@ public class EmailService {
     @Autowired
     private JwtUtil jwtUtil;
 
+    @Async
     public void sendAuthMail(String to, String username) throws MessagingException {
         Date expires = new Date(new Date().getTime() + (1000l * 60 * 5));
 //        이메일 인증 토큰 생성

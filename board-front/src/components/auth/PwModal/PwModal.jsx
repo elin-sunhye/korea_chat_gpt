@@ -8,16 +8,12 @@ import { useUserMeQuery } from '../../../queries/useUserMeQuery';
 import Swal from 'sweetalert2';
 
 export default function PwModal({ setOpen }) {
-  const loginUser = useUserMeQuery();
   const updatePwMutation = useUpdatePwMutation();
+
   const [pwValue, setPwValue] = useState({
     newPassword: '',
     newPasswordCk: '',
   });
-
-  function handleCloseBtnOnClick() {
-    setOpen(false);
-  }
 
   function handleInpOnChange(e) {
     setPwValue((prev) => ({
@@ -35,6 +31,10 @@ export default function PwModal({ setOpen }) {
       timer: 1000,
       position: 'center',
     });
+    setOpen(false);
+  }
+
+  function handleCloseBtnOnClick() {
     setOpen(false);
   }
 
@@ -58,7 +58,7 @@ export default function PwModal({ setOpen }) {
       </div>
       <div>
         <div css={s.inpGroup}>
-          <label>Enter a new password</label>
+          <label>Enter new password</label>
           <input
             type="password"
             name="newPassword"

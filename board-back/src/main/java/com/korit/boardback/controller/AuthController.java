@@ -8,7 +8,6 @@ import com.korit.boardback.entity.User;
 import com.korit.boardback.service.EmailService;
 import com.korit.boardback.service.UserService;
 import io.swagger.v3.oas.annotations.Operation;
-import jakarta.mail.MessagingException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -36,26 +35,25 @@ public class AuthController {
 
     @Operation(summary = "이메일 인증 메일 보내기")
     @PostMapping("/email")
-    public ResponseEntity<?> sendAuthMail(@RequestBody ReqAuthEmailDto dto) throws MessagingException {
-        emailService.sendAuthMail(dto.getEmail(), dto.getUsername());
+    public ResponseEntity<?> sendAuthMail(@RequestBody ReqAuthEmailDto dto) throws Exception {
+        User foundUser = userService.getUserByUsername(dto.getUsername());
+        emailService.sendAuthMail(foundUser.getEmail(), dto.getUsername());
         return ResponseEntity.ok().build();
     }
 
     @Operation(summary = "이메일 인증하기")
     @GetMapping("/email")
-    public ResponseEntity<?> setAuthMail(
+    public ResponseEntity<String> setAuthMail(
             @RequestParam String username,
             @RequestParam String token
     ) {
 //        인증 버튼 클릭 시 창이 열리는데 인증 절차 다 마치고나면 그 창 닫기
-        emailService.auth(username, token);
-
         String script = String.format("""
             <script>
-                alert(%s);
+                alert("%s");
                 window.close();
             </script>
         """, emailService.auth(username, token));
-        return ResponseEntity.ok().header("Content-Type", "text/html;charset=utf-8").body(script);
+        return ResponseEntity.ok().header("Content-Type", "text/html; charset=utf-8").body(script);
     }
 }

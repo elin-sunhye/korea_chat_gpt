@@ -4,7 +4,10 @@ import React, { useEffect, useState } from 'react';
 import { SiGoogle, SiNaver, SiKakao } from 'react-icons/si';
 import { Link, useNavigate, useSearchParams } from 'react-router-dom';
 import ValidInp from '../../components/auth/ValidInp/ValidInp';
-import { useLoginMutation } from '../../mutations/authMutation';
+import {
+  useLoginMutation,
+  useSendAuthMailMutation,
+} from '../../mutations/authMutation';
 import Swal from 'sweetalert2';
 import { setLocalStorage } from '../../configs/axiosConfig';
 import { useQueryClient } from '@tanstack/react-query';
@@ -13,7 +16,9 @@ export default function Login(p) {
   const navigate = useNavigate();
   const queryClient = useQueryClient();
 
-  const loginMutation = useLoginMutation(); // .mutate가 호출 되어야지만 useJoinMutation 내부 함수 실행;
+  // .mutate 또는 .mutateAsync가 호출 되어야지만 useJoinMutation 내부 함수 실행;
+  const loginMutation = useLoginMutation();
+  const sendAuthMailMutation = useSendAuthMailMutation();
 
   const [searchParams, setSearchParams] = useSearchParams();
 
@@ -82,14 +87,46 @@ export default function Login(p) {
 
       navigate('/');
     } catch (e) {
-      Swal.fire({
-        title: '로그인 실패!',
-        text: '사용자 정보를 확인하세요.',
-        icon: 'error',
-        confirmButtonText: '확인',
-        confirmButtonColor: ' #ff3f3f',
-      });
+      if (e.response.status === 401) {
+        const result = await Swal.fire({
+          title: '계정 활성화',
+          text: `[${e.response.status}] 계정을 활성화 하려면 전송 버튼을 클릭하여 등록하신 메일을 통해 계정 인증을 하세요.`,
+          icon: 'error',
+          confirmButtonText: '전송',
+          confirmButtonColor: ' #2389e2',
+          showCancelButton: true,
+          cancelButtonText: '취소',
+          cancelButtonColor: ' #333',
+        });
+
+        // 전송 버튼 클릭 시
+        if (result.isConfirmed) {
+          // 인증 메일 재전송
+          await sendAuthMailMutation.mutateAsync(inpValue.username);
+          await Swal.fire({
+            title: '메일 전송 완료',
+            text: '등록하신 계정으로 메일이 전송되었습니다.',
+            timer: 1000,
+            icon: 'success',
+            showConfirmButton: false,
+          });
+        }
+      } else {
+        Swal.fire({
+          title: '로그인 실패!',
+          text: `[${e.response.status}] ${e.response.data}`,
+          icon: 'error',
+          confirmButtonText: '확인',
+          confirmButtonColor: ' #e22323',
+        });
+      }
     }
+  };
+
+  const handleOAuth2LoginBtnOnClick = (e) => {
+    console.log(e.currentTarget.value);
+
+    window.location.href = `http://localhost:8080/oauth2/authorization/${e.currentTarget.value}`;
   };
 
   return (
@@ -102,7 +139,12 @@ export default function Login(p) {
         <main>
           <div css={s.oauth2Group}>
             <div css={s.groupBox}>
-              <button type="button" css={s.oauth2Btn}>
+              <button
+                type="button"
+                css={s.oauth2Btn}
+                value={'google'}
+                onClick={handleOAuth2LoginBtnOnClick}
+              >
                 <div css={s.oauth2Ico}>
                   <SiGoogle />
                 </div>
@@ -110,7 +152,12 @@ export default function Login(p) {
               </button>
             </div>
             <div css={s.groupBox}>
-              <button type="button" css={s.oauth2Btn}>
+              <button
+                type="button"
+                css={s.oauth2Btn}
+                value={'naver'}
+                onClick={handleOAuth2LoginBtnOnClick}
+              >
                 <div css={s.oauth2Ico}>
                   <SiNaver />
                 </div>
@@ -118,7 +165,12 @@ export default function Login(p) {
               </button>
             </div>
             <div css={s.groupBox}>
-              <button type="button" css={s.oauth2Btn}>
+              <button
+                type="button"
+                css={s.oauth2Btn}
+                value={'kakao'}
+                onClick={handleOAuth2LoginBtnOnClick}
+              >
                 <div css={s.oauth2Ico}>
                   <SiKakao />
                 </div>
