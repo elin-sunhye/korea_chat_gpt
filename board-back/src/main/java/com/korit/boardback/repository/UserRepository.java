@@ -26,23 +26,23 @@ public class UserRepository {
         return user;
     }
 
-    @Transactional(rollbackFor = Exception.class)
     public void updateProfileImg(int userId, String profileImg) {
         userMapper.updateProfileImgByUserId(userId, profileImg);
     }
 
-    @Transactional(rollbackFor = Exception.class)
     public void updateNickname(int userId, String nickname) {
         userMapper.updateNicknameByUserId(userId, nickname);
     }
 
-    @Transactional(rollbackFor = Exception.class)
     public void updatePassword(int userId, String password) {
         userMapper.updatePasswordByUserId(userId, password);
     }
 
-    @Transactional(rollbackFor = Exception.class)
     public void updateAccountEnabled(String username) {
         userMapper.updateAccountEnabledByUsername(username);
+    }
+
+    public void updateEmail(int userId, String email) {
+        userMapper.updateEmailByUserId(userId, email);
     }
 }

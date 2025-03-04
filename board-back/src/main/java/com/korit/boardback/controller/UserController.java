@@ -1,9 +1,11 @@
 package com.korit.boardback.controller;
 
+import com.korit.boardback.entity.User;
 import com.korit.boardback.security.principal.PrincipalUser;
-import com.korit.boardback.service.FileService;
+import com.korit.boardback.service.EmailService;
 import com.korit.boardback.service.UserService;
 import io.swagger.v3.oas.annotations.Operation;
+import jakarta.mail.MessagingException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -18,13 +20,15 @@ public class UserController {
 
     @Autowired
     private UserService userService;
+    @Autowired
+    private EmailService emailService;
 
     @Operation(summary = "로그인한 유저 정보")
     @GetMapping("/user/me")
 //    두개 같은거임 가져오는 방법은 2가지
 //    @AuthenticationPrincipal PrincipalUser principalUser
 //    PrincipalUser principalUser2 = (PrincipalUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-    public ResponseEntity<?> getLoginUser(@AuthenticationPrincipal PrincipalUser principalUser) {
+    public ResponseEntity<User> getLoginUser(@AuthenticationPrincipal PrincipalUser principalUser) {
         if(principalUser.getUser().getProfileImg() == null) {
             principalUser.getUser().setProfileImg("default.png");
         }
@@ -60,6 +64,26 @@ public class UserController {
     ) {
         String password = reqBody.get("password");
         userService.updatePassword(principalUser.getUser(), password);
+        return ResponseEntity.ok().build();
+    }
+
+    @PostMapping("/user/profile/email/verification")
+    public ResponseEntity<String> sendChangeEmailVerification(
+            @RequestBody Map<String, String> reqBody
+    ) throws MessagingException {
+        String email = reqBody.get("email");
+        String code = emailService.generateEmailCode();
+        emailService.sendChangeEmailVerification(email, code);
+        return ResponseEntity.ok().body(code);
+    }
+
+    @PutMapping("/user/profile/email")
+    public ResponseEntity<String> changeEmail(
+            @AuthenticationPrincipal PrincipalUser principalUser,
+            @RequestBody Map<String, String> reqBody
+    ) {
+        String email = reqBody.get("email");
+        userService.updateEmail(principalUser.getUser(), email);
         return ResponseEntity.ok().build();
     }
 }

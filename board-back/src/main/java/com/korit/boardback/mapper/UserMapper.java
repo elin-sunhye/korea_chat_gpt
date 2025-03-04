@@ -30,4 +30,10 @@ public interface UserMapper {
     int updateAccountEnabledByUsername(
             @Param("username") String username
     );
+
+    int updateEmailByUserId(
+            @Param("userId") int userId,
+            @Param("email") String email
+    );
+
 }

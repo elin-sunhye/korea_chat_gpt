@@ -33,6 +33,25 @@
         <collection property="userRoles" javaType="java.util.Set" resultMap="userRoleResultMap"/>
     </resultMap>
 
+    <insert id="insert" useGeneratedKeys="true" keyProperty="userId">
+        insert into user_tb
+        values(
+        default,
+        #{username},
+        #{password},
+        #{email},
+        #{nickname},
+        #{oAuth2Name},
+        #{oAuth2Provider},
+        #{profileImg},
+        #{accountExpired},
+        #{accountLocked},
+        #{credentialsExpired},
+        #{accountEnabled},
+        now()
+        )
+    </insert>
+
     <select id="selectByUserId" resultMap="userResultMap">
         select
             ut.user_id,
@@ -126,25 +145,6 @@
             ut.email = #{email}
     </select>
 
-    <insert id="insert" useGeneratedKeys="true" keyProperty="userId">
-        insert into user_tb
-        values(
-            default,
-            #{username},
-            #{password},
-            #{email},
-            #{nickname},
-            #{oAuth2Name},
-            #{oAuth2Provider},
-            #{profileImg},
-            #{accountExpired},
-            #{accountLocked},
-            #{credentialsExpired},
-            #{accountEnabled},
-            now()
-        )
-    </insert>
-
     <update id="updateProfileImgByUserId">
         update user_tb
         set
@@ -175,6 +175,14 @@
             account_enabled = 1
         where
             username = #{username}
+    </update>
+
+    <update id="updateEmailByUserId">
+        update user_tb
+        set
+            email = #{email}
+        where
+            user_id = #{userId}
     </update>
 </mapper>
 

@@ -29,6 +29,8 @@ export const container = css`
 `;
 
 export const groupLayout = css`
+  position: relative;
+
   box-sizing: border-box;
   border-radius: 0.7rem;
   padding: 0.6rem;
@@ -93,4 +95,38 @@ export const profileNicknameBox = css`
   text-align: left;
   text-overflow: ellipsis;
   white-space: nowrap;
+`;
+
+export const categoryTxt = css`
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+`;
+
+export const writeBtn = css`
+  position: absolute;
+  right: 0.6rem;
+  top: 0.4rem;
+`;
+
+export const categoryListContatiner = css`
+  flex-grow: 1;
+
+  overflow-y: auto;
+`;
+
+export const categoryItem = css`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  width: 100%;
+
+  & button:last-of-type {
+    opacity: 0;
+  }
+
+  &:hover button:last-of-type {
+    opacity: 1;
+  }
 `;

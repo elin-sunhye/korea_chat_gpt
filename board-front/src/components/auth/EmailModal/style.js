@@ -68,11 +68,33 @@ export const inpGroup = css`
   }
 `;
 
+export const verifyInp = css`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  & input {
+    margin: 0 0.5rem;
+
+    width: 2rem;
+    height: 2rem;
+
+    text-align: center;
+
+    &::-webkit-inner-spin-button,
+    &::-webkit-outer-spin-button {
+      -webkit-appearance: none;
+      margin: 0;
+    }
+  }
+`;
+
 export const emailInpNBtn = css`
   display: flex;
   gap: 1rem;
 
   & input {
+    align-items: center;
     flex-grow: 1;
 
     box-sizing: border-box;
@@ -84,6 +106,12 @@ export const emailInpNBtn = css`
     font-size: 1.4rem;
 
     background-color: #fafafa;
+  }
+
+  & span {
+    margin-right: 1rem;
+    font-size: 1.4rem;
+    line-height: 1.3;
   }
 
   & button {

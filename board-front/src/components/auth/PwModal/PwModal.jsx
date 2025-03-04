@@ -29,7 +29,6 @@ export default function PwModal({ setOpen }) {
       icon: 'success',
       showConfirmButton: false,
       timer: 1000,
-      position: 'center',
     });
     setOpen(false);
   }

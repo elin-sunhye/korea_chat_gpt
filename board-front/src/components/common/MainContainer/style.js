@@ -20,6 +20,8 @@ export const header = css`
 `;
 
 export const main = css`
+  display: flex;
+  flex-direction: column;
   flex-grow: 1;
 
   box-sizing: border-box;

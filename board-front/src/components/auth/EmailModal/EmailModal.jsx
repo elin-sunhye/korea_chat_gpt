@@ -3,19 +3,36 @@ import * as s from './style';
 import React, { useEffect, useState } from 'react';
 import { CgMail } from 'react-icons/cg';
 import { RiCloseCircleFill } from 'react-icons/ri';
-import { useUpdateEmailMutation } from '../../../mutations/accountMutation';
+import {
+  useSendVerificationEmailMutation,
+  useUpdateEmailMutation,
+} from '../../../mutations/accountMutation';
 import Swal from 'sweetalert2';
+import { useQueryClient } from '@tanstack/react-query';
 
 export default function EmailModal({ setOpen }) {
+  const queryClient = useQueryClient();
+
+  const sendVerificationEmailMutation = useSendVerificationEmailMutation();
   const updateEmailMutation = useUpdateEmailMutation();
 
-  const [emailValue, setEmailValue] = useState('');
   const [isSend, setIsSend] = useState(false);
-  const [time, setTime] = useState(1000 * 60 * 5);
+  const [time, setTime] = useState(60 * 5);
+
+  const [emailValue, setEmailValue] = useState('');
+  const [verifyCodeInpValue, setVerifyCodeInpValue] = useState({
+    one: '',
+    two: '',
+    three: '',
+    four: '',
+    five: '',
+    six: '',
+  });
+  const [verifyCode, setVerifyCode] = useState('');
 
   useEffect(() => {
     const timer = setInterval((e) => {
-      setTime((prev) => prev - 1000);
+      setTime((prev) => (prev > 0 ? prev - 1 : 0));
     }, 1000);
 
     return () => {
@@ -23,25 +40,38 @@ export default function EmailModal({ setOpen }) {
     };
   }, [isSend]);
 
+  useEffect(() => {
+    if (time === 0) {
+      Swal.fire({
+        showConfirmButton: true,
+        confirmButtonText: '확인',
+        titleText: '인증 시간이 만료되었습니다.',
+      }).then(() => {
+        setOpen(false);
+      });
+    }
+  }, [time]);
+
   function handleInpOnChange(e) {
     setEmailValue(e.target.value);
   }
 
-  async function handleSendEmailBtnOnClick() {
-    setTime(1000 * 60 * 5);
+  async function handleSendVerificationEmailBtnOnClick() {
+    setTime(60 * 5);
     setIsSend(true);
+
+    const resp = await sendVerificationEmailMutation.mutateAsync(emailValue);
+    setVerifyCode(String(resp.data).padStart(6, '0'));
   }
 
-  async function handleSaveEmailBtnOnClick() {
-    await updateEmailMutation.mutateAsync(emailValue);
-    await Swal.fire({
-      titleText: '이메일이 변경되었습니다.',
-      icon: 'success',
-      showConfirmButton: false,
-      timer: 1000,
-      position: 'center',
+  async function handleVerifyCdoeInpOnChange(e) {
+    setVerifyCodeInpValue((prev) => {
+      if (/^[0-9]?$/.test(e.target.value)) {
+        return { ...prev, [e.target.name]: e.target.value };
+      } else {
+        return { ...prev };
+      }
     });
-    setOpen(false);
   }
 
   function handleCloseBtnOnClick() {
@@ -78,12 +108,17 @@ export default function EmailModal({ setOpen }) {
               onChange={handleInpOnChange}
             />
             {isSend ? (
-              <span>{time}</span>
+              <span>
+                {Math.floor(time / 60)
+                  .toString()
+                  .padStart(2, '0')}{' '}
+                : {(time % 60).toString().padStart(2, '0')}
+              </span>
             ) : (
               <button
                 type="button"
                 css={s.setBtn}
-                onClick={handleSendEmailBtnOnClick}
+                onClick={handleSendVerificationEmailBtnOnClick}
               >
                 전송
               </button>
@@ -91,11 +126,95 @@ export default function EmailModal({ setOpen }) {
           </div>
         </div>
 
+        {isSend && (
+          <div css={s.inpGroup}>
+            <div css={s.verifyInp}>
+              <input
+                type="number"
+                name="one"
+                id="code"
+                value={verifyCodeInpValue.one}
+                onChange={handleVerifyCdoeInpOnChange}
+              />
+              <input
+                type="number"
+                name="two"
+                id="code"
+                value={verifyCodeInpValue.two}
+                onChange={handleVerifyCdoeInpOnChange}
+              />
+              <input
+                type="number"
+                name="three"
+                id="code"
+                value={verifyCodeInpValue.three}
+                onChange={handleVerifyCdoeInpOnChange}
+              />
+              <input
+                type="number"
+                name="four"
+                id="code"
+                value={verifyCodeInpValue.four}
+                onChange={handleVerifyCdoeInpOnChange}
+              />
+              <input
+                type="number"
+                name="five"
+                id="code"
+                value={verifyCodeInpValue.five}
+                onChange={handleVerifyCdoeInpOnChange}
+              />
+              <input
+                type="number"
+                name="six"
+                id="code"
+                value={verifyCodeInpValue.six}
+                onChange={handleVerifyCdoeInpOnChange}
+              />
+            </div>
+          </div>
+        )}
+
         <button
           type="button"
           css={s.setBtn}
-          onClick={handleSaveEmailBtnOnClick}
-          disabled={!emailValue}
+          onClick={async () => {
+            const inpCodes =
+              verifyCodeInpValue.one +
+              verifyCodeInpValue.two +
+              verifyCodeInpValue.three +
+              verifyCodeInpValue.four +
+              verifyCodeInpValue.five +
+              verifyCodeInpValue.six;
+
+            if (String(verifyCode) !== inpCodes) {
+              await Swal.fire({
+                titleText: '인증번호가 일치하지 않습니다.',
+                showConfirmButton: true,
+                confirmButtonText: '확인',
+                confirmButtonColor: '#d02121',
+              });
+              return;
+            }
+
+            await updateEmailMutation.mutateAsync(emailValue);
+
+            await Swal.fire({
+              titleText: '이메일이 변경되었습니다.',
+              icon: 'success',
+              showConfirmButton: false,
+              timer: 1000,
+            });
+
+            await queryClient.invalidateQueries({
+              queryKey: ['useUserMeQuery'],
+            });
+
+            setOpen(false);
+          }}
+          disabled={
+            !emailValue || Object.values(verifyCodeInpValue).includes('')
+          }
         >
           Save email address
         </button>

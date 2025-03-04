@@ -120,6 +120,7 @@ public class UserService {
                 .build();
     }
 
+    @Transactional(rollbackFor = Exception.class)
     public void updateProfileImg(User user, MultipartFile file) {
         final String PROFILE_IMG_FILE_PATH = "/upload/user/profile";
         String saveFilename = fileService.saveFile(PROFILE_IMG_FILE_PATH, file); // 폴더에 저정
@@ -132,12 +133,19 @@ public class UserService {
         fileService.delFile(PROFILE_IMG_FILE_PATH + "/" + user.getProfileImg()); // 폴더에 있는 이전 이미지 삭제
     }
 
+    @Transactional(rollbackFor = Exception.class)
     public void updateNickname(User user, String nickname) {
         userRepository.updateNickname(user.getUserId(), nickname);
     }
 
+    @Transactional(rollbackFor = Exception.class)
     public void updatePassword(User user, String password) {
         String encodedPassword = passwordEncoder.encode(password);
         userRepository.updatePassword(user.getUserId(), encodedPassword);
+    }
+
+    @Transactional(rollbackFor = Exception.class)
+    public void updateEmail(User user, String email) {
+        userRepository.updateEmail(user.getUserId(), email);
     }
 }
