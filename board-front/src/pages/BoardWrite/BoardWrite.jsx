@@ -60,6 +60,7 @@ export default function BoardWrite({}) {
         showConfirmButton: true,
         confirmButtonText: '확인',
       });
+      return;
     } else if (!quill.root.innerText.trim()) {
       await Swal.fire({
         titleText: '게시글 내용을 입력하세요.',
@@ -67,6 +68,7 @@ export default function BoardWrite({}) {
         showConfirmButton: true,
         confirmButtonText: '확인',
       });
+      return;
     }
 
     const board = {

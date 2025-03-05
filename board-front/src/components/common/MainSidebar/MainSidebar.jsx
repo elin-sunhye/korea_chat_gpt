@@ -28,6 +28,28 @@ export default function MainSidebar() {
     navigate('/account/setting');
   };
 
+  const handleWirteBtnOnClick = async (categoryName) => {
+    if (!categoryName) {
+      const categoryData = await Swal.fire({
+        titleText: '카테고리명을 선택헤주세요.',
+        input: 'text',
+        inputPlaceholder: ' Enter category name',
+        showConfirmButton: true,
+        confirmButtonText: '작성하기',
+        showCancelButton: true,
+        cancelButtonText: '취소하기',
+      });
+
+      if (categoryData.isConfirmed) {
+        categoryName = categoryData.value;
+      } else {
+        return;
+      }
+    }
+
+    navigate(`/board/write/${categoryName}`);
+  };
+
   return (
     <div css={s.layout(isOpen)}>
       <div css={s.container}>
@@ -71,26 +93,18 @@ export default function MainSidebar() {
           <div css={s.groupLayout}>
             <div css={s.categoryItem}>
               <button type="button" css={emptyBtn}>
-                내가 작성한 글
+                내가 작성한 글 (
+                {categories.isLoading ||
+                  categories.data.data.reduce(
+                    (prev, category) => prev + category.boardCount,
+                    0
+                  )}
+                )
               </button>
               <button
                 type="button"
                 css={basicBtn}
-                onClick={async () => {
-                  const categoryData = await Swal.fire({
-                    titleText: '카테고리명을 선택헤주세요.',
-                    input: 'text',
-                    inputPlaceholder: ' Enter category name',
-                    showConfirmButton: true,
-                    confirmButtonText: '작성하기',
-                    showCancelButton: true,
-                    cancelButtonText: '취소하기',
-                  });
-
-                  if (categoryData.isConfirmed) {
-                    navigate(`/board/write/${categoryData.value}`);
-                  }
-                }}
+                onClick={() => handleWirteBtnOnClick()}
               >
                 <BiEdit />
               </button>
@@ -100,13 +114,22 @@ export default function MainSidebar() {
 
         <div css={s.categoryListContatiner}>
           {categories.isLoading ||
-            categories?.data?.data.map((category) => (
-              <div css={s.groupLayout}>
+            categories?.data?.data.map((category, caIdx) => (
+              <div
+                key={`category_${caIdx}_${category.boardCategoryId}`}
+                css={s.groupLayout}
+              >
                 <div css={s.categoryItem}>
                   <button type="button" css={emptyBtn}>
-                    {category.boardCategoryName}({category.boardCount})
+                    {category.boardCategoryName} ({category.boardCount})
                   </button>
-                  <button type="button" css={basicBtn}>
+                  <button
+                    type="button"
+                    css={basicBtn}
+                    onClick={() =>
+                      handleWirteBtnOnClick(category.boardCategoryName)
+                    }
+                  >
                     <BiEdit />
                   </button>
                 </div>

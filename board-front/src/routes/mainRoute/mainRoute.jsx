@@ -6,6 +6,7 @@ import Account from '../../pages/Account/Account';
 import NotFound from '../../pages/NotFound/NotFound';
 import { useQueryClient } from '@tanstack/react-query';
 import BoardWrite from '../../pages/BoardWrite/BoardWrite';
+import BoardList from '../../pages/BoardList/BoardList';
 
 export default function MainRoute({}) {
   const navigate = useNavigate();
@@ -27,6 +28,7 @@ export default function MainRoute({}) {
         <MainContainer>
           <Routes>
             <Route path="/account/setting" element={<Account />} />
+            <Route path="/board/list" element={<BoardList />} />
             <Route path="/board/write/:categoryName" element={<BoardWrite />} />
             <Route path="/**" element={<NotFound />} />
           </Routes>

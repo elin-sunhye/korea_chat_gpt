@@ -10,14 +10,23 @@ export const quillEditor = css`
     display: flex;
     justify-content: flex-start;
     flex-wrap: wrap;
+    gap: 1rem;
 
     border: none;
     border-bottom: 0.1rem solid #dbdbdb;
+
+    &.ql-snow {
+      padding: 0.8rem 0;
+
+      & .ql-formats {
+        margin-right: 0;
+      }
+    }
   }
   & .ql-container {
     border: none;
 
-    height: 85%;
+    height: 89%;
   }
 `;
 

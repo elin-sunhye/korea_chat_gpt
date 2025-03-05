@@ -1,10 +1,8 @@
 package com.korit.boardback.service;
 
+import com.korit.boardback.dto.request.ReqBoardListSearchDto;
 import com.korit.boardback.dto.request.ReqWriteBoardDto;
-import com.korit.boardback.entity.Board;
-import com.korit.boardback.entity.BoardCategory;
-import com.korit.boardback.entity.BoardCategoryAndBoardCount;
-import com.korit.boardback.entity.User;
+import com.korit.boardback.entity.*;
 import com.korit.boardback.repository.BoardCategoryRepository;
 import com.korit.boardback.repository.BoardRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,5 +38,16 @@ public class BoardService {
 
     public List<BoardCategoryAndBoardCount> getBoardCategoriesByUserId(User user) {
         return boardCategoryRepository.findAllByUserId(user.getUserId());
+    }
+
+    @Transactional(readOnly = true) // 읽기전용 최적화
+    public List<BoardSearch> getBoardListAllBySearchOption(ReqBoardListSearchDto dto) {
+        int startIdx = (dto.getPage() - 1) * dto.getLimitCount();
+
+        return boardRepository.findBoardListAllBySearchOption(startIdx, dto.getLimitCount(), dto.getOrder(), dto.getSearchTxt());
+    }
+
+    public int getBoardListCountAllBySearchTxt(String searchTxt) {
+        return boardRepository.findBoardListCountAllBySearchTxt(searchTxt);
     }
 }
