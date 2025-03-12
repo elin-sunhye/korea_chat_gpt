@@ -228,7 +228,12 @@ export const pageNums = css`
     cursor: pointer;
 
     &:hover {
+      background-color: #eee;
+    }
+
+    &:disabled {
       background-color: #fafafa;
+      cursor: default;
     }
 
     & span {

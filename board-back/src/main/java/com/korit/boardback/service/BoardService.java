@@ -3,6 +3,7 @@ package com.korit.boardback.service;
 import com.korit.boardback.dto.request.ReqBoardListSearchDto;
 import com.korit.boardback.dto.request.ReqWriteBoardDto;
 import com.korit.boardback.entity.*;
+import com.korit.boardback.mapper.BoardMapper;
 import com.korit.boardback.repository.BoardCategoryRepository;
 import com.korit.boardback.repository.BoardRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +18,8 @@ public class BoardService {
     private BoardRepository boardRepository;
     @Autowired
     private BoardCategoryRepository boardCategoryRepository;
+    @Autowired
+    private BoardMapper boardMapper;
 
     @Transactional(rollbackFor = Exception.class)
     public Board createBoard(String categoryName, User user, ReqWriteBoardDto reqWriteBoardDto) {
@@ -49,5 +52,16 @@ public class BoardService {
 
     public int getBoardListCountAllBySearchTxt(String searchTxt) {
         return boardRepository.findBoardListCountAllBySearchTxt(searchTxt);
+    }
+
+    @Transactional(readOnly = true)
+    public List<BoardSearch> getBoardListAllByUserIdAndCategoryAndSearchOption(User user, String categoryName, ReqBoardListSearchDto dto) {
+        int startIdx = (dto.getPage() - 1) * dto.getLimitCount();
+
+        return boardRepository.findBoardListAllByUserIdAndCategoryAndSearchOption(user.getUserId(), categoryName, startIdx, dto.getLimitCount());
+    }
+
+    public int getBoardCategoryListCountAllByUserIdAndCategoryName(User user, String categoryName) {
+        return boardRepository.findBoardCategoryListCountAllByUserIdAndCategoryName(user.getUserId(), categoryName);
     }
 }

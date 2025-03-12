@@ -1,25 +1,29 @@
 /** @jsxImportSource @emotion/react */
 import * as s from './style';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { BiSearch } from 'react-icons/bi';
 import Select from 'react-select';
 import { emptyBtn } from '../../styles/buttons';
 import { GrView } from 'react-icons/gr';
 import { FcLike } from 'react-icons/fc';
 import { GoChevronLeft, GoChevronRight } from 'react-icons/go';
-import { useSearchParams } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import { useGetSearchBoardList } from '../../queries/boardQuery';
+import { useQueryClient } from '@tanstack/react-query';
 
 export default function BoardList({}) {
+  const navigate = useNavigate();
+  const queryClient = useQueryClient();
   const [searchParams, setSearchParams] = useSearchParams();
-  const page = parseInt(searchParams.get('page') || '1');
-  const order = searchParams.get('order') || 'latest';
-  const searchTxt = searchParams.get('searchTxt') || '';
 
-  const getSearchBoardList = useGetSearchBoardList();
+  const page = parseInt(searchParams.get('page') || '1');
+  const order = searchParams.get('order') || 'desc';
+  const searchTxt = searchParams.get('searchTxt') || '';
+  const [pageNums, setPageNums] = useState([]);
+  const [searchTxtValue, setSearchTxtValue] = useState(searchTxt);
 
   const orderSelectOptions = [
-    { value: 'latest', label: '최신순' },
+    { value: 'desc', label: '최신순' },
     { value: 'asc', label: '오래된순' },
     { value: 'countDesc', label: '조회 많은 순' },
     { value: 'countAcs', label: '조회 적은 순' },
@@ -27,11 +31,52 @@ export default function BoardList({}) {
     { value: 'likeAcs', label: '좋아요 적은 순' },
   ];
 
+  const getSearchBoardList = useGetSearchBoardList({
+    page,
+    limitCount: 15,
+    order,
+    searchTxt,
+  });
+  useEffect(() => {
+    if (!getSearchBoardList.isLoading) {
+      const currentPage = getSearchBoardList?.data?.data.page || 1;
+      const totalPages = getSearchBoardList?.data?.data.totalPages || 1;
+      const startIdx = Math.floor((currentPage - 1) / 5) * 5 + 1; // 0~4, 5~9...
+      const endIdx = startIdx + 4 > totalPages ? totalPages : startIdx + 4;
+
+      let newPageNums = [];
+      for (let i = startIdx; i <= endIdx; i++) {
+        newPageNums = [...newPageNums, i];
+      }
+      setPageNums(newPageNums);
+    }
+  }, [getSearchBoardList.data]);
+
+  useEffect(() => {
+    getSearchBoardList.refetch();
+  }, [searchParams]);
+
+  function handlepagingOnClick(num) {
+    searchParams.set('page', num);
+    setSearchParams(searchParams);
+  }
+
+  function handleOrderSelectOnChange(option) {
+    searchParams.set('order', option.value);
+    setSearchParams(searchParams);
+  }
+
+  function handleSearchTxtInpOnEvent() {
+    searchParams.set('page', 1);
+    searchParams.set('searchTxt', searchTxtValue);
+    setSearchParams(searchParams);
+  }
+
   return (
     <div css={s.container}>
       <div css={s.header}>
         <div css={s.title}>
-          <h2>TITLE</h2>
+          <h2>전체 게시글</h2>
         </div>
         <div css={s.searchBox}>
           <Select
@@ -48,10 +93,28 @@ export default function BoardList({}) {
                 padding: '0.3rem',
               }),
             }}
+            value={orderSelectOptions.find((option) => option.value === order)}
+            onChange={(option) => handleOrderSelectOnChange(option)}
           />
           <div css={s.searchInpBox}>
-            <input type="text" name="" id="" />
-            <button type="button" css={emptyBtn}>
+            <input
+              type="text"
+              name="searchTxt"
+              id="searchTxt"
+              placeholder={'검색어 입력'}
+              value={searchTxtValue}
+              onChange={(e) => setSearchTxtValue(e.target.value)}
+              onKeyUp={(e) => {
+                if (e.key === 'Enter') {
+                  handleSearchTxtInpOnEvent();
+                }
+              }}
+            />
+            <button
+              type="button"
+              css={emptyBtn}
+              onClick={handleSearchTxtInpOnEvent}
+            >
               <BiSearch />
             </button>
           </div>
@@ -103,25 +166,28 @@ export default function BoardList({}) {
       </div>
       <div css={s.footer}>
         <div css={s.pageNums}>
-          <button type="button">
+          <button
+            type="button"
+            disabled={getSearchBoardList?.data?.data.firstPage}
+            onClick={() => handlepagingOnClick(page - 1)}
+          >
             <GoChevronLeft />
           </button>
-          <button type="button" css={s.pageNum(page === 1)}>
-            <span>1</span>
-          </button>
-          <button type="button" css={s.pageNum(page === 2)}>
-            <span>2</span>
-          </button>
-          <button type="button" css={s.pageNum(page === 3)}>
-            <span>3</span>
-          </button>
-          <button type="button" css={s.pageNum(page === 4)}>
-            <span>4</span>
-          </button>
-          <button type="button" css={s.pageNum(page === 5)}>
-            <span>5</span>
-          </button>
-          <button type="button">
+          {pageNums.map((num, idx) => (
+            <button
+              type="button"
+              key={`paging_${idx}`}
+              css={s.pageNum(page === num)}
+              onClick={() => handlepagingOnClick(num)}
+            >
+              <span>{num}</span>
+            </button>
+          ))}
+          <button
+            type="button"
+            disabled={getSearchBoardList?.data?.data.lastPage}
+            onClick={() => handlepagingOnClick(page + 1)}
+          >
             <GoChevronRight />
           </button>
         </div>

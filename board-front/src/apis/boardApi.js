@@ -11,3 +11,6 @@ export const getCategoriesApi = async () =>
 
 export const getSearchBoardListApi = async (params) =>
   await api.get('/api/board/list', { params });
+
+export const getCategoryBaordListApi = async (categoryName, params) =>
+  await api.get(`/api/board/${categoryName}/list`, { params });

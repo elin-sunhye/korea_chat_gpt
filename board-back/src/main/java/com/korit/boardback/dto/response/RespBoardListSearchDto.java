@@ -11,9 +11,10 @@ import java.util.List;
 public class RespBoardListSearchDto {
     private int page;
     private int limitCount;
-    private int totalPage;
+    private int totalPages;
     private int totalElements;
     private boolean isFirstPage;
     private boolean isLastPage;
+    private int nextPage;
     private List<BoardSearch> boardSearchList;
 }

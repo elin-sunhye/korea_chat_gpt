@@ -30,24 +30,24 @@
         </where>
         order by
             <choose>
-                <when test="order == 'oldest'">
-                    bt.boardId asc,
+                <when test="order == 'asc'">
+                    boardId asc,
                 </when>
                 <when test="order == 'countDesc'">
-                    bt.viewCount desc,
+                    viewCount desc,
                 </when>
                 <when test="order == 'countAcs'">
-                    bt.viewCount asc,
+                    viewCount asc,
                 </when>
                 <when test="order == 'likeDesc'">
-                    bt.likeCount desc,
+                    likeCount desc,
                 </when>
                 <when test="order == 'likeAcs'">
-                    bt.likeCount asc,
+                    likeCount asc
                 </when>
             </choose>
-            bt.board_id desc
-        limit #{startIdx}, #{limitCount}
+            boardId desc
+            limit #{startIdx}, #{limitCount}
     </select>
 
     <select id="selectBoardListCountAllBySearchTxt" resultType="java.lang.Integer">
@@ -57,8 +57,42 @@
             board_tb
         <where>
             <if test="searchTxt != null and searchTxt != ''">
-                bt.title like concat("%", #{searchTxt} , "%")
+                title like concat("%", #{searchTxt} , "%")
             </if>
         </where>
+    </select>
+    <select id="selectBoardListAllByUserIdAndCategoryAndSearchOption"
+            resultType="com.korit.boardback.entity.BoardSearch">
+        select
+            bt.board_id as boardId,
+            bt.title,
+            bct.board_category_name as boardCategoryName,
+            ut.profile_img as profileImg,
+            ut.nickname,
+            bt.view_count as viewCount,
+            (select count(*) from board_like_tb where board_id = bt.board_id) as likeCount,
+            bt.created_at as createdAt
+        from
+            board_tb bt
+            inner join board_category_tb bct on(bct.board_category_id = bt.board_category_id)
+            inner join user_tb ut on(ut.user_id = bt.user_id)
+        where
+            bct.board_category_name = #{categoryName}
+            and ut.user_id = #{userId}
+        order by
+            boardId desc
+        limit #{startIdx}, #{limitCount}
+    </select>
+    <select id="selectBoardCategoryListCountAllByUserIdAndCategoryName"
+            resultType="java.lang.Integer">
+        select
+            count(*)
+        from
+            board_tb bt
+            inner join board_category_tb bct on(bct.board_category_id = bt.board_category_id)
+            inner join user_tb ut on(ut.user_id = bt.user_id)
+        where
+            bct.board_category_name = #{categoryName}
+            and ut.user_id = #{userId}
     </select>
 </mapper>

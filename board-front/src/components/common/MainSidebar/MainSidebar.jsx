@@ -81,7 +81,13 @@ export default function MainSidebar() {
             </div>
           </div>
           <div css={s.groupLayout}>
-            <button type="button" css={emptyBtn}>
+            <button
+              type="button"
+              css={emptyBtn}
+              onClick={() => {
+                navigate('/board/list');
+              }}
+            >
               <span>전체 게시글</span>
             </button>
           </div>

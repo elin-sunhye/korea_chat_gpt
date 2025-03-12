@@ -25,4 +25,12 @@ public class BoardRepository {
     public int findBoardListCountAllBySearchTxt(String searchTxt) {
         return boardMapper.selectBoardListCountAllBySearchTxt(searchTxt);
     }
+
+    public List<BoardSearch> findBoardListAllByUserIdAndCategoryAndSearchOption(int userId, String categoryName, int startIdx, int limitCount) {
+        return boardMapper.selectBoardListAllByUserIdAndCategoryAndSearchOption(userId, categoryName, startIdx, limitCount);
+    }
+
+    public int findBoardCategoryListCountAllByUserIdAndCategoryName(int userId, String categoryName) {
+        return boardMapper.selectBoardCategoryListCountAllByUserIdAndCategoryName(userId, categoryName);
+    }
 }

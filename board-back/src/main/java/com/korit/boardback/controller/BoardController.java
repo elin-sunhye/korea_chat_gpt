@@ -43,11 +43,36 @@ public class BoardController {
         RespBoardListSearchDto respBoardListSearchDto = RespBoardListSearchDto.builder()
                 .page(dto.getPage())
                 .limitCount(dto.getLimitCount())
-                .totalPage(totalPages)
+                .totalPages(totalPages)
                 .totalElements(totalBoardListCount)
-                .isLastPage(dto.getPage() == 1)
+                .isFirstPage(dto.getPage() == 1)
                 .isLastPage(dto.getPage() == totalPages)
+                .nextPage(dto.getPage() != totalPages ? dto.getPage() + 1 : 0)
                 .boardSearchList(boardService.getBoardListAllBySearchOption(dto))
+                .build();
+        return ResponseEntity.ok().body(respBoardListSearchDto);
+    }
+
+    @GetMapping("/{categoryName}/list")
+    public ResponseEntity<?> searchBoardCategoryList(
+            @AuthenticationPrincipal PrincipalUser principalUser,
+            @PathVariable String categoryName,
+            @ModelAttribute ReqBoardListSearchDto dto
+    ) {
+        int totalBoardListCount = boardService.getBoardCategoryListCountAllByUserIdAndCategoryName(principalUser.getUser(), categoryName);
+        int totalPages = totalBoardListCount % dto.getLimitCount() == 0
+                ? totalBoardListCount / dto.getLimitCount()
+                : totalBoardListCount / dto.getLimitCount() + 1;
+
+        RespBoardListSearchDto respBoardListSearchDto = RespBoardListSearchDto.builder()
+                .page(dto.getPage())
+                .limitCount(dto.getLimitCount())
+                .totalPages(totalPages)
+                .totalElements(totalBoardListCount)
+                .isFirstPage(dto.getPage() == 1)
+                .isLastPage(dto.getPage() == totalPages)
+                .nextPage(dto.getPage() != totalPages ? dto.getPage() + 1 : 0)
+                .boardSearchList(boardService.getBoardListAllByUserIdAndCategoryAndSearchOption(principalUser.getUser(), categoryName, dto))
                 .build();
         return ResponseEntity.ok().body(respBoardListSearchDto);
     }
