@@ -1,0 +1,145 @@
+2025-02-18 09:14:39.824 [background-preinit] [32mINFO [m org.hibernate.validator.internal.util.Version - HV000001: Hibernate Validator 6.2.3.Final
+2025-02-18 09:14:39.878 [restartedMain] [32mINFO [m org.springframework.boot.devtools.env.DevToolsPropertyDefaultsPostProcessor - Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+2025-02-18 09:14:39.879 [restartedMain] [32mINFO [m org.springframework.boot.devtools.env.DevToolsPropertyDefaultsPostProcessor - For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+2025-02-18 09:14:41.376 [restartedMain] [32mINFO [m org.springframework.boot.web.embedded.tomcat.TomcatWebServer - Tomcat initialized with port(s): 8080 (http)
+2025-02-18 09:14:41.390 [restartedMain] [32mINFO [m org.apache.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-8080"]
+2025-02-18 09:14:41.391 [restartedMain] [32mINFO [m org.apache.catalina.core.StandardService - Starting service [Tomcat]
+2025-02-18 09:14:41.391 [restartedMain] [32mINFO [m org.apache.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/9.0.60]
+2025-02-18 09:14:41.471 [restartedMain] [32mINFO [m org.apache.catalina.core.ContainerBase.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+2025-02-18 09:14:41.471 [restartedMain] [32mINFO [m org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 1591 ms
+2025-02-18 09:14:42.631 [restartedMain] [32mINFO [m org.springframework.security.web.DefaultSecurityFilterChain - Will not secure any request
+2025-02-18 09:14:42.737 [restartedMain] [32mINFO [m org.springframework.boot.devtools.autoconfigure.OptionalLiveReloadServer - LiveReload server is running on port 35729
+2025-02-18 09:14:42.819 [restartedMain] [33mWARN [m org.springframework.boot.autoconfigure.thymeleaf.ThymeleafAutoConfiguration$DefaultTemplateResolverConfiguration - Cannot find template location: classpath:/templates/ (please add some templates or check your Thymeleaf configuration)
+2025-02-18 09:14:42.975 [restartedMain] [32mINFO [m org.apache.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-8080"]
+2025-02-18 09:14:42.986 [restartedMain] [32mINFO [m org.springframework.boot.web.embedded.tomcat.TomcatWebServer - Tomcat started on port(s): 8080 (http) with context path ''
+2025-02-18 09:14:44.511 [http-nio-8080-exec-1] [32mINFO [m org.apache.catalina.core.ContainerBase.[Tomcat].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+2025-02-18 09:14:44.512 [http-nio-8080-exec-1] [32mINFO [m org.springframework.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+2025-02-18 09:14:44.513 [http-nio-8080-exec-1] [32mINFO [m org.springframework.web.servlet.DispatcherServlet - Completed initialization in 1 ms
+2025-02-18 09:14:44.616 [http-nio-8080-exec-2] [32mINFO [m com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+2025-02-18 09:14:44.970 [http-nio-8080-exec-2] [32mINFO [m com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+2025-02-18 09:30:48.460 [http-nio-8080-exec-6] [33mWARN [m org.springframework.web.servlet.mvc.method.annotation.ExceptionHandlerExceptionResolver - Resolved [org.springframework.web.bind.MethodArgumentNotValidException: Validation failed for argument [0] in public org.springframework.http.ResponseEntity<com.korit.korit_gpt_java_springboot.dto.response.common.SuccessResponseDto<java.lang.String>> com.korit.korit_gpt_java_springboot.controller.authentication.AuthenticationController.signin(com.korit.korit_gpt_java_springboot.dto.request.authentication.ReqSigninDto) throws org.springframework.web.bind.MethodArgumentNotValidException with 2 errors: [Field error in object 'reqSigninDto' on field 'username': rejected value [ㅁㄴㅇㅁㄹ]; codes [Pattern.reqSigninDto.username,Pattern.username,Pattern.java.lang.String,Pattern]; arguments [org.springframework.context.support.DefaultMessageSourceResolvable: codes [reqSigninDto.username,username]; arguments []; default message [username],[Ljavax.validation.constraints.Pattern$Flag;@222e0bd2,^[a-zA-Z0-9_]{4,16}$]; default message [영어 대소문자 (A-Z, a-z), 숫자 (0-9), 밑줄(_)만 포함 가능합니다.]] [Field error in object 'reqSigninDto' on field 'password': rejected value [asdasd]; codes [Pattern.reqSigninDto.password,Pattern.password,Pattern.java.lang.String,Pattern]; arguments [org.springframework.context.support.DefaultMessageSourceResolvable: codes [reqSigninDto.password,password]; arguments []; default message [password],[Ljavax.validation.constraints.Pattern$Flag;@222e0bd2,^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+~`|{}:;'<>,.?/-])[A-Za-z\d!@#$%^&*()_+~`|{}:;'<>,.?/-]{8,}$]; default message [영어 대소문자, 숫자, 특수문자(!@#$%^&*()_+~`|{}:;'<>,.?/-)를 하나 이상 모두 포함하며 8자리 이상 입력해야합니다.]] ]
+2025-02-18 09:31:08.844 [http-nio-8080-exec-7] [33mWARN [m org.springframework.web.servlet.mvc.method.annotation.ExceptionHandlerExceptionResolver - Resolved [org.springframework.web.bind.MethodArgumentNotValidException: Validation failed for argument [0] in public org.springframework.http.ResponseEntity<com.korit.korit_gpt_java_springboot.dto.response.common.SuccessResponseDto<java.lang.String>> com.korit.korit_gpt_java_springboot.controller.authentication.AuthenticationController.signin(com.korit.korit_gpt_java_springboot.dto.request.authentication.ReqSigninDto) throws org.springframework.web.bind.MethodArgumentNotValidException: [Field error in object 'reqSigninDto' on field 'password': rejected value [asdasd]; codes [Pattern.reqSigninDto.password,Pattern.password,Pattern.java.lang.String,Pattern]; arguments [org.springframework.context.support.DefaultMessageSourceResolvable: codes [reqSigninDto.password,password]; arguments []; default message [password],[Ljavax.validation.constraints.Pattern$Flag;@222e0bd2,^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+~`|{}:;'<>,.?/-])[A-Za-z\d!@#$%^&*()_+~`|{}:;'<>,.?/-]{8,}$]; default message [영어 대소문자, 숫자, 특수문자(!@#$%^&*()_+~`|{}:;'<>,.?/-)를 하나 이상 모두 포함하며 8자리 이상 입력해야합니다.]] ]
+2025-02-18 09:33:31.559 [SpringApplicationShutdownHook] [32mINFO [m com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown initiated...
+2025-02-18 09:33:31.568 [SpringApplicationShutdownHook] [32mINFO [m com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown completed.
+2025-02-18 09:33:35.447 [background-preinit] [32mINFO [m org.hibernate.validator.internal.util.Version - HV000001: Hibernate Validator 6.2.3.Final
+2025-02-18 09:33:35.506 [restartedMain] [32mINFO [m org.springframework.boot.devtools.env.DevToolsPropertyDefaultsPostProcessor - Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+2025-02-18 09:33:35.507 [restartedMain] [32mINFO [m org.springframework.boot.devtools.env.DevToolsPropertyDefaultsPostProcessor - For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+2025-02-18 09:33:36.898 [restartedMain] [32mINFO [m org.springframework.boot.web.embedded.tomcat.TomcatWebServer - Tomcat initialized with port(s): 8080 (http)
+2025-02-18 09:33:36.908 [restartedMain] [32mINFO [m org.apache.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-8080"]
+2025-02-18 09:33:36.908 [restartedMain] [32mINFO [m org.apache.catalina.core.StandardService - Starting service [Tomcat]
+2025-02-18 09:33:36.908 [restartedMain] [32mINFO [m org.apache.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/9.0.60]
+2025-02-18 09:33:36.958 [restartedMain] [32mINFO [m org.apache.catalina.core.ContainerBase.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+2025-02-18 09:33:36.959 [restartedMain] [32mINFO [m org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 1451 ms
+2025-02-18 09:33:38.007 [restartedMain] [32mINFO [m org.springframework.security.web.DefaultSecurityFilterChain - Will not secure any request
+2025-02-18 09:33:38.096 [restartedMain] [32mINFO [m org.springframework.boot.devtools.autoconfigure.OptionalLiveReloadServer - LiveReload server is running on port 35729
+2025-02-18 09:33:38.177 [restartedMain] [33mWARN [m org.springframework.boot.autoconfigure.thymeleaf.ThymeleafAutoConfiguration$DefaultTemplateResolverConfiguration - Cannot find template location: classpath:/templates/ (please add some templates or check your Thymeleaf configuration)
+2025-02-18 09:33:38.335 [restartedMain] [32mINFO [m org.apache.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-8080"]
+2025-02-18 09:33:38.346 [restartedMain] [32mINFO [m org.springframework.boot.web.embedded.tomcat.TomcatWebServer - Tomcat started on port(s): 8080 (http) with context path ''
+2025-02-18 09:33:47.667 [http-nio-8080-exec-1] [32mINFO [m org.apache.catalina.core.ContainerBase.[Tomcat].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+2025-02-18 09:33:47.668 [http-nio-8080-exec-1] [32mINFO [m org.springframework.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+2025-02-18 09:33:47.669 [http-nio-8080-exec-1] [32mINFO [m org.springframework.web.servlet.DispatcherServlet - Completed initialization in 1 ms
+2025-02-18 09:33:47.749 [http-nio-8080-exec-1] [32mINFO [m com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+2025-02-18 09:33:47.993 [http-nio-8080-exec-1] [32mINFO [m com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+2025-02-18 09:37:31.803 [http-nio-8080-exec-5] [33mWARN [m org.springframework.web.servlet.mvc.method.annotation.ExceptionHandlerExceptionResolver - Resolved [org.springframework.web.bind.MethodArgumentNotValidException: Validation failed for argument [0] in public org.springframework.http.ResponseEntity<com.korit.korit_gpt_java_springboot.dto.response.common.SuccessResponseDto<java.lang.String>> com.korit.korit_gpt_java_springboot.controller.authentication.AuthenticationController.signin(com.korit.korit_gpt_java_springboot.dto.request.authentication.ReqSigninDto) throws org.springframework.web.bind.MethodArgumentNotValidException: [Field error in object 'reqSigninDto' on field 'password': rejected value [sdvev ad]; codes [Pattern.reqSigninDto.password,Pattern.password,Pattern.java.lang.String,Pattern]; arguments [org.springframework.context.support.DefaultMessageSourceResolvable: codes [reqSigninDto.password,password]; arguments []; default message [password],[Ljavax.validation.constraints.Pattern$Flag;@59a935c3,^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+~`|{}:;'<>,.?/-])[A-Za-z\d!@#$%^&*()_+~`|{}:;'<>,.?/-]{8,}$]; default message [영어 대소문자, 숫자, 특수문자(!@#$%^&*()_+~`|{}:;'<>,.?/-)를 하나 이상 모두 포함하며 8자리 이상 입력해야합니다.]] ]
+2025-02-18 09:39:10.508 [http-nio-8080-exec-7] [33mWARN [m org.springframework.web.servlet.mvc.method.annotation.ExceptionHandlerExceptionResolver - Resolved [org.springframework.web.bind.MethodArgumentNotValidException: Validation failed for argument [0] in public org.springframework.http.ResponseEntity<com.korit.korit_gpt_java_springboot.dto.response.common.SuccessResponseDto<java.lang.String>> com.korit.korit_gpt_java_springboot.controller.authentication.AuthenticationController.signin(com.korit.korit_gpt_java_springboot.dto.request.authentication.ReqSigninDto) throws org.springframework.web.bind.MethodArgumentNotValidException: [Field error in object 'reqSigninDto' on field 'password': rejected value [ascasc]; codes [Pattern.reqSigninDto.password,Pattern.password,Pattern.java.lang.String,Pattern]; arguments [org.springframework.context.support.DefaultMessageSourceResolvable: codes [reqSigninDto.password,password]; arguments []; default message [password],[Ljavax.validation.constraints.Pattern$Flag;@59a935c3,^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+~`|{}:;'<>,.?/-])[A-Za-z\d!@#$%^&*()_+~`|{}:;'<>,.?/-]{8,}$]; default message [영어 대소문자, 숫자, 특수문자(!@#$%^&*()_+~`|{}:;'<>,.?/-)를 하나 이상 모두 포함하며 8자리 이상 입력해야합니다.]] ]
+2025-02-18 10:24:15.431 [SpringApplicationShutdownHook] [32mINFO [m com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown initiated...
+2025-02-18 10:24:15.434 [SpringApplicationShutdownHook] [32mINFO [m com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown completed.
+2025-02-18 10:24:19.255 [background-preinit] [32mINFO [m org.hibernate.validator.internal.util.Version - HV000001: Hibernate Validator 6.2.3.Final
+2025-02-18 10:24:19.306 [restartedMain] [32mINFO [m org.springframework.boot.devtools.env.DevToolsPropertyDefaultsPostProcessor - Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+2025-02-18 10:24:19.306 [restartedMain] [32mINFO [m org.springframework.boot.devtools.env.DevToolsPropertyDefaultsPostProcessor - For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+2025-02-18 10:24:20.677 [restartedMain] [32mINFO [m org.springframework.boot.web.embedded.tomcat.TomcatWebServer - Tomcat initialized with port(s): 8080 (http)
+2025-02-18 10:24:20.685 [restartedMain] [32mINFO [m org.apache.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-8080"]
+2025-02-18 10:24:20.686 [restartedMain] [32mINFO [m org.apache.catalina.core.StandardService - Starting service [Tomcat]
+2025-02-18 10:24:20.686 [restartedMain] [32mINFO [m org.apache.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/9.0.60]
+2025-02-18 10:24:20.736 [restartedMain] [32mINFO [m org.apache.catalina.core.ContainerBase.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+2025-02-18 10:24:20.736 [restartedMain] [32mINFO [m org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 1429 ms
+2025-02-18 10:24:21.770 [restartedMain] [32mINFO [m org.springframework.security.web.DefaultSecurityFilterChain - Will not secure any request
+2025-02-18 10:24:21.869 [restartedMain] [32mINFO [m org.springframework.boot.devtools.autoconfigure.OptionalLiveReloadServer - LiveReload server is running on port 35729
+2025-02-18 10:24:21.953 [restartedMain] [33mWARN [m org.springframework.boot.autoconfigure.thymeleaf.ThymeleafAutoConfiguration$DefaultTemplateResolverConfiguration - Cannot find template location: classpath:/templates/ (please add some templates or check your Thymeleaf configuration)
+2025-02-18 10:24:22.089 [restartedMain] [32mINFO [m org.apache.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-8080"]
+2025-02-18 10:24:22.098 [restartedMain] [32mINFO [m org.springframework.boot.web.embedded.tomcat.TomcatWebServer - Tomcat started on port(s): 8080 (http) with context path ''
+2025-02-18 10:27:18.331 [http-nio-8080-exec-1] [32mINFO [m org.apache.catalina.core.ContainerBase.[Tomcat].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+2025-02-18 10:27:18.332 [http-nio-8080-exec-1] [32mINFO [m org.springframework.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+2025-02-18 10:27:18.333 [http-nio-8080-exec-1] [32mINFO [m org.springframework.web.servlet.DispatcherServlet - Completed initialization in 1 ms
+2025-02-18 10:27:18.419 [http-nio-8080-exec-2] [32mINFO [m com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+2025-02-18 10:27:18.629 [http-nio-8080-exec-2] [32mINFO [m com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+2025-02-18 10:44:25.367 [http-nio-8080-exec-9] [33mWARN [m org.springframework.web.servlet.mvc.support.DefaultHandlerExceptionResolver - Resolved [org.springframework.web.method.annotation.MethodArgumentTypeMismatchException: Failed to convert value of type 'java.lang.String' to required type 'int'; nested exception is java.lang.NumberFormatException: For input string: "undefined"]
+2025-02-18 10:44:42.211 [http-nio-8080-exec-10] [33mWARN [m org.springframework.web.servlet.mvc.support.DefaultHandlerExceptionResolver - Resolved [org.springframework.web.method.annotation.MethodArgumentTypeMismatchException: Failed to convert value of type 'java.lang.String' to required type 'int'; nested exception is java.lang.NumberFormatException: For input string: "undefined"]
+2025-02-18 12:54:53.866 [HikariPool-1 housekeeper] [33mWARN [m com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=4m4s200ms).
+2025-02-18 13:05:45.515 [HikariPool-1 housekeeper] [33mWARN [m com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=10m21s634ms).
+2025-02-18 13:24:05.072 [HikariPool-1 housekeeper] [33mWARN [m com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=18m19s557ms).
+2025-02-18 13:44:08.728 [HikariPool-1 housekeeper] [33mWARN [m com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=17m33s624ms).
+2025-02-18 14:01:18.124 [HikariPool-1 housekeeper] [33mWARN [m com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=15m39s398ms).
+2025-02-18 14:03:22.240 [HikariPool-1 housekeeper] [33mWARN [m com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=1m34s121ms).
+2025-02-18 14:24:01.501 [SpringApplicationShutdownHook] [32mINFO [m com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown initiated...
+2025-02-18 14:24:01.506 [SpringApplicationShutdownHook] [32mINFO [m com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown completed.
+2025-02-18 14:24:05.129 [background-preinit] [32mINFO [m org.hibernate.validator.internal.util.Version - HV000001: Hibernate Validator 6.2.3.Final
+2025-02-18 14:24:05.187 [restartedMain] [32mINFO [m org.springframework.boot.devtools.env.DevToolsPropertyDefaultsPostProcessor - Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+2025-02-18 14:24:05.187 [restartedMain] [32mINFO [m org.springframework.boot.devtools.env.DevToolsPropertyDefaultsPostProcessor - For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+2025-02-18 14:24:06.534 [restartedMain] [32mINFO [m org.springframework.boot.web.embedded.tomcat.TomcatWebServer - Tomcat initialized with port(s): 8080 (http)
+2025-02-18 14:24:06.541 [restartedMain] [32mINFO [m org.apache.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-8080"]
+2025-02-18 14:24:06.542 [restartedMain] [32mINFO [m org.apache.catalina.core.StandardService - Starting service [Tomcat]
+2025-02-18 14:24:06.542 [restartedMain] [32mINFO [m org.apache.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/9.0.60]
+2025-02-18 14:24:06.587 [restartedMain] [32mINFO [m org.apache.catalina.core.ContainerBase.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+2025-02-18 14:24:06.588 [restartedMain] [32mINFO [m org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 1399 ms
+2025-02-18 14:24:07.794 [restartedMain] [32mINFO [m org.springframework.security.web.DefaultSecurityFilterChain - Will not secure any request
+2025-02-18 14:24:07.947 [restartedMain] [32mINFO [m org.springframework.boot.devtools.autoconfigure.OptionalLiveReloadServer - LiveReload server is running on port 35729
+2025-02-18 14:24:08.036 [restartedMain] [33mWARN [m org.springframework.boot.autoconfigure.thymeleaf.ThymeleafAutoConfiguration$DefaultTemplateResolverConfiguration - Cannot find template location: classpath:/templates/ (please add some templates or check your Thymeleaf configuration)
+2025-02-18 14:24:08.193 [restartedMain] [32mINFO [m org.apache.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-8080"]
+2025-02-18 14:24:08.203 [restartedMain] [32mINFO [m org.springframework.boot.web.embedded.tomcat.TomcatWebServer - Tomcat started on port(s): 8080 (http) with context path ''
+2025-02-18 14:26:48.606 [http-nio-8080-exec-1] [32mINFO [m org.apache.catalina.core.ContainerBase.[Tomcat].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+2025-02-18 14:26:48.606 [http-nio-8080-exec-1] [32mINFO [m org.springframework.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+2025-02-18 14:26:48.608 [http-nio-8080-exec-1] [32mINFO [m org.springframework.web.servlet.DispatcherServlet - Completed initialization in 1 ms
+2025-02-18 14:26:48.690 [http-nio-8080-exec-1] [32mINFO [m com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+2025-02-18 14:26:48.900 [http-nio-8080-exec-1] [32mINFO [m com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+2025-02-18 16:22:56.266 [SpringApplicationShutdownHook] [32mINFO [m com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown initiated...
+2025-02-18 16:22:56.273 [SpringApplicationShutdownHook] [32mINFO [m com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown completed.
+2025-02-18 17:34:19.472 [background-preinit] [32mINFO [m org.hibernate.validator.internal.util.Version - HV000001: Hibernate Validator 6.2.3.Final
+2025-02-18 17:34:19.524 [restartedMain] [32mINFO [m org.springframework.boot.devtools.env.DevToolsPropertyDefaultsPostProcessor - Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+2025-02-18 17:34:19.524 [restartedMain] [32mINFO [m org.springframework.boot.devtools.env.DevToolsPropertyDefaultsPostProcessor - For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+2025-02-18 17:34:20.956 [restartedMain] [32mINFO [m org.springframework.boot.web.embedded.tomcat.TomcatWebServer - Tomcat initialized with port(s): 8080 (http)
+2025-02-18 17:34:20.964 [restartedMain] [32mINFO [m org.apache.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-8080"]
+2025-02-18 17:34:20.964 [restartedMain] [32mINFO [m org.apache.catalina.core.StandardService - Starting service [Tomcat]
+2025-02-18 17:34:20.964 [restartedMain] [32mINFO [m org.apache.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/9.0.60]
+2025-02-18 17:34:21.021 [restartedMain] [32mINFO [m org.apache.catalina.core.ContainerBase.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+2025-02-18 17:34:21.021 [restartedMain] [32mINFO [m org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 1496 ms
+2025-02-18 17:34:22.085 [restartedMain] [32mINFO [m org.springframework.security.web.DefaultSecurityFilterChain - Will not secure any request
+2025-02-18 17:34:22.187 [restartedMain] [33mWARN [m org.springframework.boot.devtools.autoconfigure.OptionalLiveReloadServer - Unable to start LiveReload server
+2025-02-18 17:34:22.272 [restartedMain] [33mWARN [m org.springframework.boot.autoconfigure.thymeleaf.ThymeleafAutoConfiguration$DefaultTemplateResolverConfiguration - Cannot find template location: classpath:/templates/ (please add some templates or check your Thymeleaf configuration)
+2025-02-18 17:34:22.419 [restartedMain] [32mINFO [m org.apache.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-8080"]
+2025-02-18 17:34:22.422 [restartedMain] [33mWARN [m org.springframework.boot.web.servlet.context.AnnotationConfigServletWebServerApplicationContext - Exception encountered during context initialization - cancelling refresh attempt: org.springframework.context.ApplicationContextException: Failed to start bean 'webServerStartStop'; nested exception is org.springframework.boot.web.server.PortInUseException: Port 8080 is already in use
+2025-02-18 17:34:22.430 [restartedMain] [32mINFO [m org.apache.coyote.http11.Http11NioProtocol - Pausing ProtocolHandler ["http-nio-8080"]
+2025-02-18 17:34:22.430 [restartedMain] [32mINFO [m org.apache.catalina.core.StandardService - Stopping service [Tomcat]
+2025-02-18 17:34:22.436 [restartedMain] [32mINFO [m org.apache.coyote.http11.Http11NioProtocol - Stopping ProtocolHandler ["http-nio-8080"]
+2025-02-18 17:34:22.436 [restartedMain] [32mINFO [m org.apache.coyote.http11.Http11NioProtocol - Destroying ProtocolHandler ["http-nio-8080"]
+2025-02-18 17:34:22.443 [restartedMain] [32mINFO [m org.springframework.boot.autoconfigure.logging.ConditionEvaluationReportLoggingListener - 
+
+Error starting ApplicationContext. To display the conditions report re-run your application with 'debug' enabled.
+2025-02-18 17:34:22.464 [restartedMain] [1;31mERROR[m org.springframework.boot.diagnostics.LoggingFailureAnalysisReporter - 
+
+***************************
+APPLICATION FAILED TO START
+***************************
+
+Description:
+
+Web server failed to start. Port 8080 was already in use.
+
+Action:
+
+Identify and stop the process that's listening on port 8080 or configure this application to listen on another port.
+
+2025-02-18 17:34:28.337 [background-preinit] [32mINFO [m org.hibernate.validator.internal.util.Version - HV000001: Hibernate Validator 6.2.3.Final
+2025-02-18 17:34:28.383 [restartedMain] [32mINFO [m org.springframework.boot.devtools.env.DevToolsPropertyDefaultsPostProcessor - Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+2025-02-18 17:34:28.383 [restartedMain] [32mINFO [m org.springframework.boot.devtools.env.DevToolsPropertyDefaultsPostProcessor - For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+2025-02-18 17:34:29.449 [restartedMain] [32mINFO [m org.springframework.boot.web.embedded.tomcat.TomcatWebServer - Tomcat initialized with port(s): 8080 (http)
+2025-02-18 17:34:29.454 [restartedMain] [32mINFO [m org.apache.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-8080"]
+2025-02-18 17:34:29.454 [restartedMain] [32mINFO [m org.apache.catalina.core.StandardService - Starting service [Tomcat]
+2025-02-18 17:34:29.454 [restartedMain] [32mINFO [m org.apache.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/9.0.60]
+2025-02-18 17:34:29.494 [restartedMain] [32mINFO [m org.apache.catalina.core.ContainerBase.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+2025-02-18 17:34:29.494 [restartedMain] [32mINFO [m org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 1110 ms
+2025-02-18 17:34:30.325 [restartedMain] [32mINFO [m org.springframework.security.web.DefaultSecurityFilterChain - Will not secure any request
+2025-02-18 17:34:30.392 [restartedMain] [32mINFO [m org.springframework.boot.devtools.autoconfigure.OptionalLiveReloadServer - LiveReload server is running on port 35729
+2025-02-18 17:34:30.440 [restartedMain] [33mWARN [m org.springframework.boot.autoconfigure.thymeleaf.ThymeleafAutoConfiguration$DefaultTemplateResolverConfiguration - Cannot find template location: classpath:/templates/ (please add some templates or check your Thymeleaf configuration)
+2025-02-18 17:34:30.553 [restartedMain] [32mINFO [m org.apache.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-8080"]
+2025-02-18 17:34:30.564 [restartedMain] [32mINFO [m org.springframework.boot.web.embedded.tomcat.TomcatWebServer - Tomcat started on port(s): 8080 (http) with context path ''

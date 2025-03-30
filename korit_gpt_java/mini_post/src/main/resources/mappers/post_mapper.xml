@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.korit.mini_post.mapper.PostMapper">
+
+    <resultMap id="postResultMap" type="com.korit.mini_post.entity.Post">
+        <id property="postId" column="post_id" />
+        <result property="userId" column="pt_user_id" />
+        <result property="title" column="title" />
+        <result property="content" column="content" />
+        <result property="createAt" column="create_at" />
+        <result property="updateAt" column="update_at" />
+    </resultMap>
+
+    <resultMap id="userResultMap" type="com.korit.mini_post.entity.User">
+        <id property="userId" column="ut_user_id"/>
+        <result property="username" column="username"/>
+        <result property="password" column="password"/>
+        <result property="name" column="name"/>
+        <result property="email" column="email"/>
+        <result property="createAt" column="create_at"/>
+    </resultMap>
+
+    <insert id="insert">
+        insert into post_tb
+        values(default, #{userId}, #{title}, #{content}, now(), now())
+    </insert>
+    <select id="selectAllPost" resultMap="postResultMap">
+        select
+            pt.title,
+            pt.post_id,
+            pt.user_id as pt_user_id,
+            pt.content,
+            pt.create_at,
+            pt.update_at,
+
+            ut.user_id as ut_user_id,
+            ut.username,
+            ut.password,
+            ut.name,
+            ut.email
+        from post_tb pt
+        left outer join user_tb ut
+        on (pt.user_id = ut.user_id)
+    </select>
+
+    <select id="selectByPostId" resultMap="postResultMap">
+        select
+        pt.title,
+        pt.post_id,
+        pt.user_id,
+        pt.content,
+        pt.create_at,
+        pt.update_at,
+
+        ut.user_id,
+        ut.username,
+        ut.password,
+        ut.name,
+        ut.email
+
+        from post_tb pt
+        left outer join user_tb ut on(pt.user_id = ut.user_id)
+        where pt.post_id = #{postId}
+    </select>
+</mapper>
