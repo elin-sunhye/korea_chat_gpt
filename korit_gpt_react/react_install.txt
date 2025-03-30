@@ -1,0 +1,17 @@
+## 프로젝트 생성
+npx create-react-app korit_gpt_react
+npm install
+  react@18
+  react-dom@18
+  @testing-library/jest-dom@5.17.0
+  @testing-library/react@13.4.0
+  @testing-library/user-event@13.5.0
+  web-vitals
+
+@testing-library/* 패키지: React 컴포넌트의 동작을 테스트하고 사용자 인터페이스(UI)를 검증하는 데 사용
+web-vitals: 앱의 성능을 측정하고 개선하기 위한 데이터를 제공
+
+
+## node-modules 폴더가 없을 때
+  npm install
+  npm i

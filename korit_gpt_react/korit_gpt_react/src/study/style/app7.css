@@ -1,0 +1,114 @@
+.container {
+  display: flex;
+  justify-content: space-between;
+  margin: 100px auto;
+  width: 70%;
+
+  & > div {
+    box-sizing: border-box;
+    border: 1px solid #dbdbdb;
+    padding: 30px;
+    width: 45%;
+    height: 600px;
+  }
+  .register_box,
+  .table_box {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    width: 100%;
+
+    label,
+    input,
+    select,
+    button {
+      height: 40px;
+    }
+
+    input,
+    select,
+    button,
+    th,
+    td {
+      box-sizing: border-box;
+      border: 1px solid #dbdbdb;
+      padding: 10px;
+    }
+
+    label {
+      display: inline-block;
+      width: 100px;
+    }
+
+    button {
+      background-color: white;
+
+      &:hover {
+        background-color: #fafafa;
+      }
+
+      &:active {
+        background-color: #eee;
+      }
+    }
+  }
+
+  .register_box {
+    .row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      width: 100%;
+
+      input {
+        width: calc(100% - 100px);
+      }
+    }
+
+    button {
+      width: 100%;
+    }
+  }
+
+  .table_box {
+    .search_box {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
+      margin-left: auto;
+      width: 80%;
+
+      select,
+      button {
+        display: inline-block;
+        width: 90px;
+      }
+
+      input {
+        width: calc(100% - (90px * 2));
+      }
+    }
+
+    table {
+      box-sizing: border-box;
+      border: 1px solid #dbdbdb;
+      border-collapse: collapse;
+      width: 100%;
+
+      th,
+      td {
+        text-align: center;
+
+        &:first-of-type {
+          width: 40%;
+        }
+        &:nth-of-type(2),
+        &:nth-of-type(3),
+        &:last-of-type {
+          width: 20%;
+        }
+      }
+    }
+  }
+}
